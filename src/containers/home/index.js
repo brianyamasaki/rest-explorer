@@ -1,48 +1,21 @@
-import React from 'react'
-import { push } from 'react-router-redux'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import {
-  increment,
-  incrementAsync,
-  decrement,
-  decrementAsync
-} from '../../modules/counter'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Home = props => (
+const Home = () => (
   <div>
-    <h1>Home</h1>
-    <p>Count: {props.count}</p>
-
+    <h1>Welcome to Densho Navigator</h1>
     <p>
-      <button onClick={props.increment} disabled={props.isIncrementing}>Increment</button>
-      <button onClick={props.incrementAsync} disabled={props.isIncrementing}>Increment Async</button>
+      Use this app to navigate the
+      <a href="http://ddr.densho.org">Densho Digital Repository</a> via the REST
+      API.
     </p>
-
-    <p>
-      <button onClick={props.decrement} disabled={props.isDecrementing}>Decrement</button>
-      <button onClick={props.decrementAsync} disabled={props.isDecrementing}>Decrement Async</button>
-    </p>
-
-    <p><button onClick={() => props.changePage()}>Go to about page via redux</button></p>
+    <ul>
+      <li>
+        Start by browsing our
+        <Link to={'/organizations'}> contributing organizations</Link>
+      </li>
+    </ul>
   </div>
-)
+);
 
-const mapStateToProps = state => ({
-  count: state.counter.count,
-  isIncrementing: state.counter.isIncrementing,
-  isDecrementing: state.counter.isDecrementing
-})
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  increment,
-  incrementAsync,
-  decrement,
-  decrementAsync,
-  changePage: () => push('/about-us')
-}, dispatch)
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home)
+export default Home;

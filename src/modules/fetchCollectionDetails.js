@@ -1,15 +1,17 @@
 import { fetchJson, DENSHO_REST_BASE_URL } from '../shared';
 
-export const FETCH_ORG_DETAILS = 'fetch_org_details/fetch';
-export const FETCH_ORG_DETAILS_SUCCESS = 'fetch_org_details/fetch_success';
-export const FETCH_ORG_DETAILS_FAIL = 'fetch_org_details/fetch_fail';
+export const FETCH_COLLECTION_DETAILS = 'fetch_collection_details/fetch';
+export const FETCH_COLLECTION_DETAILS_SUCCESS =
+  'fetch_collection_details/fetch_success';
+export const FETCH_COLLECTION_DETAILS_FAIL =
+  'fetch_collection_details/fetch_fail';
 
 const initialState = {
   fetchObject: null,
-  collectionsUrl: '',
   name: '',
   description: '',
-  websiteUrl: '',
+  extent: '',
+  itemsUrl: '',
   isLoading: false
 };
 
@@ -17,22 +19,22 @@ const initialState = {
 export default (state = initialState, action) => {
   const { payload } = action;
   switch (action.type) {
-    case FETCH_ORG_DETAILS:
+    case FETCH_COLLECTION_DETAILS:
       return {
         ...state,
         isLoading: true
       };
-    case FETCH_ORG_DETAILS_SUCCESS:
+    case FETCH_COLLECTION_DETAILS_SUCCESS:
       return {
         ...state,
         isLoading: false,
         fetchObject: payload,
-        collectionsUrl: payload.links.children,
+        itemsUrl: payload.links.children,
         name: payload.title,
         description: payload.description,
-        websiteUrl: payload.url
+        extent: payload.extent
       };
-    case FETCH_ORG_DETAILS_FAIL:
+    case FETCH_COLLECTION_DETAILS_FAIL:
       return {
         ...state,
         isLoading: false
@@ -43,20 +45,20 @@ export default (state = initialState, action) => {
 };
 
 // actions
-export const fetchOrgDetails = id => dispatch => {
+export const fetchCollectionDetails = id => dispatch => {
   dispatch({
-    type: FETCH_ORG_DETAILS
+    type: FETCH_COLLECTION_DETAILS
   });
   fetchJson(`${DENSHO_REST_BASE_URL}${id}/`)
     .then(json => {
       dispatch({
-        type: FETCH_ORG_DETAILS_SUCCESS,
+        type: FETCH_COLLECTION_DETAILS_SUCCESS,
         payload: json
       });
     })
     .catch(error => {
       dispatch({
-        type: FETCH_ORG_DETAILS_FAIL,
+        type: FETCH_COLLECTION_DETAILS_FAIL,
         payload: error
       });
     });

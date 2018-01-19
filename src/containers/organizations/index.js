@@ -19,9 +19,9 @@ class Organizations extends Component {
   }
 
   showOrgList() {
-    const { organizationObject } = this.props;
-    if (organizationObject) {
-      return <ul>{organizationObject.objects.map(this.showOrgItem)}</ul>;
+    const { organizations } = this.props;
+    if (organizations) {
+      return <ul>{organizations.map(this.showOrgItem)}</ul>;
     }
   }
 
@@ -45,7 +45,7 @@ class Organizations extends Component {
 
 const mapStateToProps = state => ({
   isFetching: state.orgList.isLoading,
-  organizationObject: state.orgList.organizationObject
+  organizations: state.orgList.organizations
 });
 
 const mapDispatchToProps = dispatch =>

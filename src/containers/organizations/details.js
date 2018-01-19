@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { push } from 'react-router-redux';
+import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchOrgDetails } from '../../modules/fetchOrgDetails';
-import { fetchChildren } from '../../modules/fetchChildren';
+import { fetchCollection } from '../../modules/fetchCollection';
 
 class OrganizationDetails extends Component {
-  state = {
-    orgDetails: {},
-    children: []
-  };
-
   componentDidMount() {
     const { match, changePage, fetchOrgDetails } = this.props;
     const id = match.params.id;
@@ -22,32 +18,26 @@ class OrganizationDetails extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { orgChildren, orgDetails, fetchChildren } = this.props;
-    if (
-      nextProps.orgChildren !== orgChildren &&
-      nextProps.orgChildren.children &&
-      nextProps.orgChildren.children.objects.length
-    ) {
-      this.setState({
-        children: this.state.children.concat(
-          nextProps.orgChildren.children.objects
-        )
-      });
-    }
-    if (nextProps.orgDetails !== orgDetails) {
-      this.setState({
-        orgDetails: nextProps.orgDetails
-      });
-      if (nextProps.orgDetails.details)
-        fetchChildren(nextProps.orgDetails.details.links.children);
+    const { fetchCollection, collectionsUrl } = this.props;
+    if (nextProps.collectionsUrl !== collectionsUrl) {
+      fetchCollection(nextProps.collectionsUrl);
     }
   }
 
-  renderChild(child) {
+  getMore() {
+    const { nextUrl } = this.props;
+    if (nextUrl) {
+      this.props.fetchCollection(nextUrl);
+    }
+  }
+
+  renderCollection(child) {
     return (
       <li key={child.id}>
         <ul>
-          <li>{child.title}</li>
+          <li>
+            <Link to={`/collections/${child.id}`}>{child.title}</Link>
+          </li>
           <li>{child.description}</li>
           <li>{child.extent}</li>
         </ul>
@@ -55,34 +45,43 @@ class OrganizationDetails extends Component {
     );
   }
 
-  renderChildren() {
-    return <ul>{this.state.children.map(this.renderChild)}</ul>;
+  renderCollections() {
+    return <ol>{this.props.collections.map(this.renderCollection)}</ol>;
+  }
+
+  renderMoreButton() {
+    if (this.props.nextUrl) {
+      return <button onClick={() => this.getMore()}>More</button>;
+    }
   }
 
   render() {
-    const { orgDetails } = this.state;
-    if (orgDetails.details) {
-      return (
-        <div>
-          <h1>{orgDetails.details.title}</h1>
-          <h4>Description</h4>
-          <p>{orgDetails.details.description}</p>
-          <p>
-            URL:
-            <a href={orgDetails.details.url}>{orgDetails.details.url}</a>
-          </p>
-          {this.renderChildren()}
-        </div>
-      );
-    }
-    return <div />;
+    const { name, description, websiteUrl } = this.props;
+    return (
+      <div>
+        <h1>{name}</h1>
+        <h4>Description</h4>
+        <p>{description}</p>
+        <p>
+          URL:
+          <a href={websiteUrl}>{websiteUrl}</a>
+        </p>
+        {this.renderCollections()}
+        {this.renderMoreButton()}
+      </div>
+    );
   }
 }
 
 const mapStateToProps = state => {
+  const { orgDetails, collection } = state;
   return {
-    orgDetails: state.orgDetails,
-    orgChildren: state.children
+    name: orgDetails.name,
+    collectionsUrl: orgDetails.collectionsUrl,
+    description: orgDetails.description,
+    websiteUrl: orgDetails.websiteUrl,
+    collections: collection.collections,
+    nextUrl: collection.nextUrl
   };
 };
 
@@ -90,7 +89,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       fetchOrgDetails,
-      fetchChildren,
+      fetchCollection,
       changePage: () => push('/organizations')
     },
     dispatch

@@ -6,6 +6,7 @@ import orgDetails from './fetchOrgDetails';
 import collection from './fetchCollection';
 import collectionDetails from './fetchCollectionDetails';
 import collectionItems from './fetchCollectionItems';
+import selectedCollectionItem from './selectedCollectionItem';
 
 export default combineReducers({
   router: routerReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   orgDetails,
   collection,
   collectionDetails,
-  collectionItems
+  collectionItems,
+  selectedCollectionItem
 });

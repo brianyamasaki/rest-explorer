@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -26,18 +25,12 @@ class Organizations extends Component {
   }
 
   render() {
-    const { organizationObject, changePage } = this.props;
+    const { organizationObject } = this.props;
     return (
       <div>
-        <h1>Affiliated Organizations</h1>
+        <h1 className="pageTitle">Affiliated Organizations</h1>
 
         {this.showOrgList(organizationObject)}
-
-        <p>
-          <button onClick={() => changePage()}>
-            Go to about page via redux
-          </button>
-        </p>
       </div>
     );
   }
@@ -51,8 +44,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      getOrgList,
-      changePage: () => push('/about-us')
+      getOrgList
     },
     dispatch
   );

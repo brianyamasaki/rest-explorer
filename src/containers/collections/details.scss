@@ -1,0 +1,39 @@
+$item-height: 200;
+$item-width: 190;
+
+.itemCollectionBox {
+  display: flex;
+  padding: 0;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.collectionItem {
+  list-style: none;
+  margin: 0;
+  width: $item-width + px;
+  height: $item-height + px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid white;
+
+  &:hover {
+    border: 1px solid black;
+  }
+
+  .thumb {
+    width: ($item-width - 2) + 'px';
+  }
+
+  .itemTitle {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    margin: 0;
+    padding: 3px;
+    text-align: center;
+    font-size: 12px;
+  }
+}

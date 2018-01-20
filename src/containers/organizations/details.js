@@ -60,7 +60,7 @@ class OrganizationDetails extends Component {
     return (
       <div>
         <h1>{name}</h1>
-        <h4>Description</h4>
+        <h4 className="pageTitle">Description</h4>
         <p>{description}</p>
         <p>
           URL:

@@ -4,6 +4,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchCollectionDetails } from '../../modules/fetchCollectionDetails';
 import { fetchCollectionItems } from '../../modules/fetchCollectionItems';
+import { selectCollectionItem } from '../../modules/selectedCollectionItem';
+
+import './details.css'; // Tell Webpack we use these
 
 class CollectionDetails extends Component {
   componentDidMount() {
@@ -30,30 +33,49 @@ class CollectionDetails extends Component {
     }
   }
 
-  renderImg(item) {
+  onClickItem(id, i) {
+    const { selectCollectionItem, items, changePage } = this.props;
+    selectCollectionItem(id, i, items[i].links);
+    changePage(`/item/${id}`);
+  }
+
+  renderImg(item, i) {
     return (
-      <div className="collectionItem" key={item.id}>
-        <img src={item.links.thumb} alt={item.links.thumb} width="200" />
+      <li
+        className="collectionItem"
+        key={item.id}
+        onClick={() => this.onClickItem(item.id, i)}
+      >
+        <img
+          className="thumb"
+          src={item.links.thumb}
+          alt={item.links.thumb}
+          width="200"
+        />
         <p className="itemTitle">{item.title}</p>
-      </div>
+      </li>
     );
   }
 
-  renderItem(item) {
+  renderItem(item, i) {
     switch (item.format) {
       case 'img':
-        return this.renderImg(item);
+      case 'doc':
+        return this.renderImg(item, i);
       default:
-        return <p>Collection Item type {item.format} is not supported yet</p>;
+        return (
+          <li className="collectionItem" key={item.id}>
+            Collection Item type <strong>{item.format}</strong> is not supported
+          </li>
+        );
     }
   }
 
   renderItems() {
-    //    return <ol>{this.props.items.map(this.renderItem.bind(this))}</ol>;
     return (
-      <div className="itemCollectionBox">
+      <ul className="itemCollectionBox">
         {this.props.items.map(this.renderItem.bind(this))}
-      </div>
+      </ul>
     );
   }
 
@@ -67,7 +89,7 @@ class CollectionDetails extends Component {
     const { name, description, extent } = this.props;
     return (
       <div>
-        <h1>{name}</h1>
+        <h1 className="pageTitle">{name}</h1>
         <h4>Description</h4>
         <p>{description}</p>
         <p>Extent: {extent}</p>
@@ -95,7 +117,8 @@ const mapDispatchToProps = dispatch =>
     {
       fetchCollectionDetails,
       fetchCollectionItems,
-      changePage: () => push('/organizations')
+      selectCollectionItem,
+      changePage: url => push(url)
     },
     dispatch
   );

@@ -8,6 +8,7 @@ export const FETCH_COLLECTION_DETAILS_FAIL =
 
 const initialState = {
   fetchObject: null,
+  id: '',
   name: '',
   description: '',
   extent: '',
@@ -28,6 +29,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        id: payload.id,
         fetchObject: payload,
         itemsUrl: payload.links.children,
         name: payload.title,

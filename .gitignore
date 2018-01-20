@@ -9,6 +9,9 @@ coverage
 # production
 build
 
+# ignore pre-processed CSS files
+src/**/*.css
+
 # misc
 .DS_Store
 .env

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Home = () => (
   <div>
-    <h1>Welcome to Densho Navigator</h1>
+    <h1 className="pageTitle">Welcome to Densho Navigator</h1>
     <p>
       Use this app to navigate the
       <a href="http://ddr.densho.org">Densho Digital Repository</a> via the REST

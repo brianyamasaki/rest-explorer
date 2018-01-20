@@ -6,6 +6,7 @@ export const FETCH_COLLECTION_FAIL = 'fetch_collection/fetch_fail';
 
 const initialState = {
   fetchObjects: [],
+  id: '',
   collections: [],
   nextUrl: null,
   isLoading: false,
@@ -24,6 +25,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        id: action.payload.id,
         fetchObjects: state.fetchObjects.concat(action.payload.data),
         collections: state.collections.concat(action.payload.data.objects),
         nextUrl: action.payload.data.next,

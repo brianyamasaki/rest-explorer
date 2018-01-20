@@ -2,52 +2,62 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
-import { getSelectedItem } from '../../modules/selectItem';
+import { fetchItemDetails } from '../../modules/fetchItemDetails';
 
 class Item extends Component {
   componentDidMount() {
-    const { itemData } = this.props;
-    if (!itemData.item || !itemData.itemId || !itemData.links)
-      this.props.changePage('/organizations');
+    const { match, changePage, fetchItemDetails } = this.props;
+    const id = match.params.id;
+    if (!id) {
+      changePage('/organizations');
+    } else {
+      fetchItemDetails(id);
+    }
   }
 
   renderImg() {
-    const { itemData } = this.props;
+    const { name, description, links, creation } = this.props;
     return (
-      <div>
-        <h1 className="pageTitle">{itemData.item.title}</h1>
-        <img src={itemData.links.img} alt={itemData.item.description} />
-        <p>{itemData.item.description}</p>
+      <div className="itemDetail">
+        <h1 className="pageTitle">{name}</h1>
+        <p className="creationDate">{creation}</p>
+        <img src={links.img} alt={description} />
+        <p>{description}</p>
       </div>
     );
   }
 
   render() {
-    const { itemData } = this.props;
-    if (itemData.item) {
-      switch (itemData.item.format) {
-        case 'img':
-        case 'doc':
-          return this.renderImg();
-        default:
-          console.log(`Cannot render ${itemData.item.format}`);
-          break;
-      }
+    const { format } = this.props;
+    switch (format) {
+      case 'img':
+      case 'doc':
+      case 'vh':
+        return this.renderImg();
+      default:
+        console.log(`Cannot render ${format}`);
+        break;
     }
-    return <div />;
+    return <div className="itemDetail" />;
   }
 }
 
 const mapStateToProps = state => {
+  const { itemDetails } = state;
   return {
-    itemData: getSelectedItem(state)
+    id: itemDetails.id,
+    name: itemDetails.name,
+    description: itemDetails.description,
+    links: itemDetails.links,
+    format: itemDetails.format.id,
+    creation: itemDetails.creation
   };
 };
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      getSelectedItem,
+      fetchItemDetails,
       changePage: url => push(url)
     },
     dispatch

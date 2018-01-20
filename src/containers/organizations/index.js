@@ -9,7 +9,7 @@ class Organizations extends Component {
     this.props.getOrgList();
   }
 
-  showOrgItem(item) {
+  renderOrgItem(item) {
     return (
       <li key={item.id}>
         <Link to={`/organizations/${item.id}`}>{item.title}</Link>
@@ -17,20 +17,19 @@ class Organizations extends Component {
     );
   }
 
-  showOrgList() {
+  renderOrgList() {
     const { organizations } = this.props;
     if (organizations) {
-      return <ul>{organizations.map(this.showOrgItem)}</ul>;
+      return <ul>{organizations.map(this.renderOrgItem)}</ul>;
     }
   }
 
   render() {
-    const { organizationObject } = this.props;
     return (
       <div>
         <h1 className="pageTitle">Affiliated Organizations</h1>
 
-        {this.showOrgList(organizationObject)}
+        {this.renderOrgList()}
       </div>
     );
   }

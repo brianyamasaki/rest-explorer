@@ -6,7 +6,11 @@ import orgDetails from './fetchOrgDetails';
 import collection from './fetchCollection';
 import collectionDetails from './fetchCollectionDetails';
 import collectionItems from './fetchCollectionItems';
-import selectedCollectionItem from './selectedCollectionItem';
+import itemDetails from './fetchItemDetails';
+import facets from './fetchFacets';
+import facetDetails from './fetchFacetDetails';
+import narrators from './fetchNarrators';
+import narratorDetails from './fetchNarratorDetails';
 
 export default combineReducers({
   router: routerReducer,
@@ -16,5 +20,9 @@ export default combineReducers({
   collection,
   collectionDetails,
   collectionItems,
-  selectedCollectionItem
+  itemDetails,
+  facets,
+  facetDetails,
+  narrators,
+  narratorDetails
 });

@@ -10,11 +10,16 @@ import './details.css'; // Tell Webpack we use these
 
 class CollectionDetails extends Component {
   componentDidMount() {
-    const { match, changePage, fetchCollectionDetails } = this.props;
+    const {
+      match,
+      changePage,
+      fetchCollectionDetails,
+      collectionId
+    } = this.props;
     const id = match.params.id;
     if (!id) {
       changePage('/organizations');
-    } else {
+    } else if (collectionId !== id) {
       fetchCollectionDetails(id);
     }
   }
@@ -61,6 +66,7 @@ class CollectionDetails extends Component {
     switch (item.format) {
       case 'img':
       case 'doc':
+      case 'vh':
         return this.renderImg(item, i);
       default:
         return (
@@ -107,6 +113,7 @@ const mapStateToProps = state => {
     description: collectionDetails.description,
     extent: collectionDetails.extent,
     itemsUrl: collectionDetails.itemsUrl,
+    collectionId: collectionDetails.id,
     items: collectionItems.items,
     nextUrl: collectionItems.nextUrl
   };

@@ -63,7 +63,7 @@ class OrganizationDetails extends Component {
         <h4 className="pageTitle">Description</h4>
         <p>{description}</p>
         <p>
-          URL:
+          Website URL:
           <a href={websiteUrl}>{websiteUrl}</a>
         </p>
         {this.renderCollections()}

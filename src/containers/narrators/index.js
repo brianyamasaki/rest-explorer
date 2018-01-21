@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { MoreButton } from '../../components';
 import { fetchNarrators } from '../../modules/fetchNarrators';
 
+import './index.css';
+
 class Narrators extends Component {
   componentDidMount() {
     const { narrators } = this.props;
@@ -20,15 +22,27 @@ class Narrators extends Component {
 
   renderNarratorItem(item) {
     return (
-      <li key={item.id}>
-        <Link to={`/narrators/${item.id}`}>{item.display_name}</Link>
+      <li key={item.id} className="navigatorItem">
+        <Link to={`/narrators/${item.id}`}>
+          <img
+            className="thumb"
+            src={item.links.thumb}
+            alt={item.links.thumb}
+            width="200"
+          />
+          <p className="navigatorTitle">{item.display_name}</p>
+        </Link>
       </li>
     );
   }
 
   renderNarratorList() {
     const { narrators } = this.props;
-    return <ul>{narrators.map(this.renderNarratorItem.bind(this))}</ul>;
+    return (
+      <ul className="navigatorsBox">
+        {narrators.map(this.renderNarratorItem.bind(this))}
+      </ul>
+    );
   }
 
   renderMoreButton() {

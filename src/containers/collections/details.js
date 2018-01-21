@@ -3,6 +3,7 @@ import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { MoreButton } from '../../components';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { fetchCollectionDetails } from '../../modules/fetchCollectionDetails';
 import { fetchCollectionItems } from '../../modules/fetchCollectionItems';
 import { selectCollectionItem } from '../../modules/selectedCollectionItem';
@@ -45,6 +46,10 @@ class CollectionDetails extends Component {
     changePage(`/item/${id}`);
   }
 
+  itemTooltip(item) {
+    return <Tooltip>{item.title}</Tooltip>;
+  }
+
   renderImg(item, i) {
     return (
       <li
@@ -52,12 +57,14 @@ class CollectionDetails extends Component {
         key={item.id}
         onClick={() => this.onClickItem(item.id, i)}
       >
-        <img
-          className="thumb"
-          src={item.links.thumb}
-          alt={item.links.thumb}
-          width="200"
-        />
+        <OverlayTrigger placement="top" overlay={this.itemTooltip(item)}>
+          <img
+            className="thumb"
+            src={item.links.thumb}
+            alt={item.links.thumb}
+            width="200"
+          />
+        </OverlayTrigger>
         <p className="itemTitle">{item.title}</p>
       </li>
     );

@@ -63,6 +63,13 @@ class OrganizationDetails extends Component {
     );
   }
 
+  renderCollectionsTotal() {
+    const { collectionsTotal } = this.props;
+    if (collectionsTotal) {
+      return <p>Number of collections: {collectionsTotal}</p>;
+    }
+  }
+
   renderMoreButton() {
     if (this.props.nextUrl) {
       return (
@@ -83,6 +90,7 @@ class OrganizationDetails extends Component {
         <h1>{name}</h1>
         <h4 className="pageTitle">Description</h4>
         <p>{description}</p>
+        {this.renderCollectionsTotal()}
         <p>
           Website URL:
           <a href={websiteUrl}>{websiteUrl}</a>
@@ -101,6 +109,7 @@ const mapStateToProps = state => {
     collectionsUrl: orgDetails.collectionsUrl,
     description: orgDetails.description,
     websiteUrl: orgDetails.websiteUrl,
+    collectionsTotal: collection.collectionsTotal,
     collections: collection.collections,
     nextUrl: collection.nextUrl,
     isLoading: collection.isLoading

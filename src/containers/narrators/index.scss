@@ -1,13 +1,13 @@
 $item-height: 200;
 $item-width: 190;
 
-.itemCollectionBox {
+.navigatorsBox {
   display: flex;
   padding: 0;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 
-  .collectionItem {
+  .navigatorItem {
     list-style: none;
     margin: 0;
     width: $item-width + px;
@@ -24,7 +24,7 @@ $item-width: 190;
       width: ($item-width - 2) + 'px';
     }
 
-    .itemTitle {
+    .navigatorTitle {
       position: absolute;
       bottom: 0;
       left: 0;

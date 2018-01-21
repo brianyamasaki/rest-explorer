@@ -10,6 +10,7 @@ const initialState = {
   collections: [],
   nextUrl: null,
   isLoading: false,
+  collectionsTotal: 0,
   errMsg: ''
 };
 
@@ -29,6 +30,7 @@ export default (state = initialState, action) => {
         fetchObjects: state.fetchObjects.concat(action.payload.data),
         collections: state.collections.concat(action.payload.data.objects),
         nextUrl: action.payload.data.next,
+        collectionsTotal: action.payload.data.total,
         errMsg: ''
       };
     case FETCH_COLLECTION_FAIL:

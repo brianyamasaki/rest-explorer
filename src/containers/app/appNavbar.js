@@ -6,7 +6,7 @@ const AppNavbar = () => (
     <Grid>
       <Navbar.Header>
         <Navbar.Brand>
-          <a href="/">RN</a>
+          <a href="/">Explorer</a>
         </Navbar.Brand>
       </Navbar.Header>
       <Navbar.Toggle />

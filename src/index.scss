@@ -16,20 +16,6 @@ body {
   margin: auto;
 }
 
-header {
-  width: 100%;
-  display: flex;
-  background-color: rgb(238, 229, 181);
-}
-
-header a {
-  padding: 0.5em 1em;
-}
-
-h1 {
-  text-align: center;
-}
-
 button:disabled {
   opacity: 0.5;
 }

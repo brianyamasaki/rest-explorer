@@ -4,6 +4,8 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { fetchItemDetails } from '../../modules/fetchItemDetails';
 
+import './index.css';
+
 class Item extends Component {
   componentDidMount() {
     const { match, changePage, fetchItemDetails } = this.props;
@@ -15,14 +17,51 @@ class Item extends Component {
     }
   }
 
+  renderPerson(person, i) {
+    return <li key={i}>{person}</li>;
+  }
+
+  renderPersons() {
+    const { persons } = this.props;
+    if (persons && persons.length) {
+      return (
+        <div>
+          <p>Referenced persons: </p>
+          <ul>{persons.map(this.renderPerson.bind(this))}</ul>
+        </div>
+      );
+    }
+  }
+
+  renderCredit() {
+    const { credit } = this.props;
+    if (credit) {
+      return <p>{credit}</p>;
+    }
+  }
+
+  renderWebsiteLink() {
+    const { links } = this.props;
+    if (links.html)
+      return (
+        <p>
+          Contributing Organization Website Link:{' '}
+          <a href={links.html}>{links.html}</a>
+        </p>
+      );
+  }
+
   renderImg() {
     const { name, description, links, creation } = this.props;
     return (
       <div className="itemDetail">
         <h1 className="pageTitle">{name}</h1>
-        <p className="creationDate">{creation}</p>
         <img src={links.img} alt={description} />
-        <p>{description}</p>
+        <p className="creationDate">Created: {creation}</p>
+        <p>Description: {description}</p>
+        {this.renderPersons()}
+        {this.renderCredit()}
+        {this.renderWebsiteLink()}
       </div>
     );
   }
@@ -50,7 +89,9 @@ const mapStateToProps = state => {
     description: itemDetails.description,
     links: itemDetails.links,
     format: itemDetails.format.id,
-    creation: itemDetails.creation
+    creation: itemDetails.creation,
+    persons: itemDetails.persons,
+    credit: itemDetails.credit
   };
 };
 

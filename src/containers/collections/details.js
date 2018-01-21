@@ -47,7 +47,7 @@ class CollectionDetails extends Component {
   }
 
   itemTooltip(item) {
-    return <Tooltip>{item.title}</Tooltip>;
+    return <Tooltip id={item.title}>{item.title}</Tooltip>;
   }
 
   renderImg(item, i) {

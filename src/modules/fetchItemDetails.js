@@ -13,6 +13,8 @@ const initialState = {
   isLoading: false,
   format: '',
   creation: '',
+  persons: [],
+  credit: '',
   errMsg: ''
 };
 
@@ -36,6 +38,8 @@ export default (state = initialState, action) => {
         links: payload.links,
         format: payload.format,
         creation: payload.creation,
+        persons: payload.persons,
+        credit: payload.credit,
         isLoading: false
       };
     case FETCH_ITEM_DETAILS_FAIL:

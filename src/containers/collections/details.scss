@@ -5,7 +5,7 @@ $item-width: 190;
   display: flex;
   padding: 0;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 
   .collectionItem {
     list-style: none;

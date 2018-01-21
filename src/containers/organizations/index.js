@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getOrgList } from '../../modules/fetchOrgs';
+import { Media } from 'react-bootstrap';
+
+import './index.css';
 
 class Organizations extends Component {
   componentDidMount() {
@@ -12,7 +15,19 @@ class Organizations extends Component {
   renderOrgItem(item) {
     return (
       <li key={item.id}>
-        <Link to={`/organizations/${item.id}`}>{item.title}</Link>
+        <Media>
+          <Media.Left>
+            <Link to={`/organizations/${item.id}`}>
+              <img src={item.links.thumb} alt={item.title} />
+            </Link>
+          </Media.Left>
+          <Media.Body>
+            <Link to={`/organizations/${item.id}`}>
+              <Media.Heading>{item.title}</Media.Heading>
+            </Link>
+            <p>{item.description}</p>
+          </Media.Body>
+        </Media>
       </li>
     );
   }
@@ -20,7 +35,11 @@ class Organizations extends Component {
   renderOrgList() {
     const { organizations } = this.props;
     if (organizations) {
-      return <ul>{organizations.map(this.renderOrgItem)}</ul>;
+      return (
+        <ul className="organizationList">
+          {organizations.map(this.renderOrgItem)}
+        </ul>
+      );
     }
   }
 

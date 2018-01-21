@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Link, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Home from '../home';
 import Organizations from '../organizations';
 import OrganizationDetails from '../organizations/details';
@@ -10,18 +10,12 @@ import FacetDetails from '../facets/details';
 import Narrators from '../narrators';
 import NarratorDetails from '../narrators/details';
 import About from '../about';
+import AppNavbar from './appNavbar';
 
 const App = () => (
-  <div className="main">
-    <header>
-      <Link to="/">Home</Link>
-      <Link to="/organizations">Organizations</Link>
-      <Link to="/facets">Facets</Link>
-      <Link to="/narrators">Narrators</Link>
-      <Link to="/about-us">About</Link>
-    </header>
-
-    <div>
+  <div>
+    <AppNavbar />
+    <div role="main" className="container">
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/organizations" component={Organizations} />

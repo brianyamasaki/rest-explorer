@@ -1,0 +1,15 @@
+.orgCollectionList {
+  li {
+    margin: 0;
+    padding: 2px 0;
+    .media-left {
+      overflow: hidden;
+      img {
+        width: 120px;
+      }
+    }
+    .media-body {
+      padding-left: 4px;
+    }
+  }
+}

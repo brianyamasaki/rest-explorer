@@ -1,0 +1,15 @@
+.organizationList {
+  padding: 0;
+  li {
+    list-style: none;
+    margin: 0;
+    padding: 2px 0;
+  }
+  .media-left {
+    width: 140px;
+    text-align: center;
+    img {
+      max-height: 90px;
+    }
+  }
+}

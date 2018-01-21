@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { MoreButton } from '../../components';
 import { fetchNarrators } from '../../modules/fetchNarrators';
 
 class Narrators extends Component {
@@ -32,7 +33,14 @@ class Narrators extends Component {
 
   renderMoreButton() {
     if (this.props.nextUrl) {
-      return <button onClick={() => this.getMore()}>More</button>;
+      return (
+        <MoreButton
+          onClick={this.getMore.bind(this)}
+          isLoading={this.props.isLoading}
+        >
+          Show More Narrators
+        </MoreButton>
+      );
     }
   }
 
@@ -52,7 +60,8 @@ const mapStateToProps = state => {
   return {
     id: narrators.id,
     narrators: narrators.narrators,
-    nextUrl: narrators.nextUrl
+    nextUrl: narrators.nextUrl,
+    isLoading: narrators.isLoading
   };
 };
 

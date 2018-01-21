@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { MoreButton } from '../../components';
 import { fetchCollectionDetails } from '../../modules/fetchCollectionDetails';
 import { fetchCollectionItems } from '../../modules/fetchCollectionItems';
 import { selectCollectionItem } from '../../modules/selectedCollectionItem';
@@ -87,7 +88,14 @@ class CollectionDetails extends Component {
 
   renderMoreButton() {
     if (this.props.nextUrl) {
-      return <button onClick={() => this.getMore()}>More</button>;
+      return (
+        <MoreButton
+          onClick={this.getMore.bind(this)}
+          isLoading={this.props.isLoading}
+        >
+          More
+        </MoreButton>
+      );
     }
   }
 
@@ -115,7 +123,8 @@ const mapStateToProps = state => {
     itemsUrl: collectionDetails.itemsUrl,
     collectionId: collectionDetails.id,
     items: collectionItems.items,
-    nextUrl: collectionItems.nextUrl
+    nextUrl: collectionItems.nextUrl,
+    isLoading: collectionItems.isLoading
   };
 };
 

@@ -3,8 +3,11 @@ import { push } from 'react-router-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { MoreButton } from '../../components';
+import { Media } from 'react-bootstrap';
 import { fetchOrgDetails } from '../../modules/fetchOrgDetails';
 import { fetchCollection } from '../../modules/fetchCollection';
+import './details.css';
 
 class OrganizationDetails extends Component {
   componentDidMount() {
@@ -34,24 +37,42 @@ class OrganizationDetails extends Component {
   renderCollection(child) {
     return (
       <li key={child.id}>
-        <ul>
-          <li>
-            <Link to={`/collections/${child.id}`}>{child.title}</Link>
-          </li>
-          <li>{child.description}</li>
-          <li>{child.extent}</li>
-        </ul>
+        <Media>
+          <Media.Left>
+            <Link to={`/collections/${child.id}`}>
+              <img src={child.links.thumb} alt={child.title} />
+            </Link>
+          </Media.Left>
+          <Media.Body>
+            <Link to={`/collections/${child.id}`}>
+              <Media.Heading>{child.title}</Media.Heading>
+            </Link>
+            <p>{child.description}</p>
+            <p>{child.extent}</p>
+          </Media.Body>
+        </Media>
       </li>
     );
   }
 
   renderCollections() {
-    return <ol>{this.props.collections.map(this.renderCollection)}</ol>;
+    return (
+      <ol className="orgCollectionList">
+        {this.props.collections.map(this.renderCollection)}
+      </ol>
+    );
   }
 
   renderMoreButton() {
     if (this.props.nextUrl) {
-      return <button onClick={() => this.getMore()}>More</button>;
+      return (
+        <MoreButton
+          onClick={this.getMore.bind(this)}
+          isLoading={this.props.isLoading}
+        >
+          Show More Collections
+        </MoreButton>
+      );
     }
   }
 
@@ -81,7 +102,8 @@ const mapStateToProps = state => {
     description: orgDetails.description,
     websiteUrl: orgDetails.websiteUrl,
     collections: collection.collections,
-    nextUrl: collection.nextUrl
+    nextUrl: collection.nextUrl,
+    isLoading: collection.isLoading
   };
 };
 

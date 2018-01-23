@@ -4,6 +4,7 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import VhItem from './vhItem';
 import { fetchItemDetails } from '../../modules/fetchItemDetails';
+import { PrintJson } from '../../components';
 
 import './index.css';
 
@@ -53,7 +54,7 @@ class Item extends Component {
   }
 
   renderImg() {
-    const { name, description, links, creation } = this.props;
+    const { name, description, links, creation, json } = this.props;
     return (
       <div className="itemDetail">
         <h1 className="pageTitle">{name}</h1>
@@ -63,6 +64,7 @@ class Item extends Component {
         {this.renderPersons()}
         {this.renderCredit()}
         {this.renderWebsiteLink()}
+        <PrintJson json={json} />
       </div>
     );
   }
@@ -76,7 +78,9 @@ class Item extends Component {
       case 'vh':
         return <VhItem itemDetails={itemDetails} />;
       default:
-        console.log(`Cannot render ${format}`);
+        if (format) {
+          console.log(`Cannot render ${format}`);
+        }
         break;
     }
     return <div className="itemDetail" />;
@@ -94,7 +98,8 @@ const mapStateToProps = state => {
     format: itemDetails.format.id,
     creation: itemDetails.creation,
     persons: itemDetails.persons,
-    credit: itemDetails.credit
+    credit: itemDetails.credit,
+    json: itemDetails.fetchObject
   };
 };
 

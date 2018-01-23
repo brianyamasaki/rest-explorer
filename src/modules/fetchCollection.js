@@ -23,12 +23,17 @@ export default (state = initialState, action) => {
         isLoading: true
       };
     case FETCH_COLLECTION_SUCCESS:
+      const isFirstSet = action.payload.index === 0;
       return {
         ...state,
         isLoading: false,
         id: action.payload.id,
-        fetchObjects: state.fetchObjects.concat(action.payload.data),
-        collections: state.collections.concat(action.payload.data.objects),
+        fetchObjects: isFirstSet
+          ? [action.payload.data]
+          : state.fetchObjects.concat(action.payload.data),
+        collections: isFirstSet
+          ? action.payload.data.objects
+          : state.collections.concat(action.payload.data.objects),
         nextUrl: action.payload.data.next,
         collectionsTotal: action.payload.data.total,
         errMsg: ''

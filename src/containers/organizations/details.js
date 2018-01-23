@@ -7,6 +7,7 @@ import { MoreButton } from '../../components';
 import { Media } from 'react-bootstrap';
 import { fetchOrgDetails } from '../../modules/fetchOrgDetails';
 import { fetchCollection } from '../../modules/fetchCollection';
+import { PrintJson } from '../../components';
 import './details.css';
 
 class OrganizationDetails extends Component {
@@ -34,15 +35,23 @@ class OrganizationDetails extends Component {
     }
   }
 
-  renderCollection(child) {
+  renderThumbnail(child) {
+    if (child.links && child.links.thumb) {
+      return (
+        <Link to={`/collections/${child.id}`}>
+          <img src={child.links.thumb} alt={child.title} />
+        </Link>
+      );
+    } else {
+      return <span>No Image Supplied</span>;
+    }
+  }
+
+  renderCollection(child, i) {
     return (
-      <li key={child.id}>
+      <li key={i}>
         <Media>
-          <Media.Left>
-            <Link to={`/collections/${child.id}`}>
-              <img src={child.links.thumb} alt={child.title} />
-            </Link>
-          </Media.Left>
+          <Media.Left>{this.renderThumbnail(child)}</Media.Left>
           <Media.Body>
             <Link to={`/collections/${child.id}`}>
               <Media.Heading>{child.title}</Media.Heading>
@@ -58,7 +67,7 @@ class OrganizationDetails extends Component {
   renderCollections() {
     return (
       <ol className="orgCollectionList">
-        {this.props.collections.map(this.renderCollection)}
+        {this.props.collections.map(this.renderCollection.bind(this))}
       </ol>
     );
   }
@@ -84,7 +93,7 @@ class OrganizationDetails extends Component {
   }
 
   render() {
-    const { name, description, websiteUrl } = this.props;
+    const { name, description, websiteUrl, json } = this.props;
     return (
       <div>
         <h1>{name}</h1>
@@ -97,6 +106,7 @@ class OrganizationDetails extends Component {
         </p>
         {this.renderCollections()}
         {this.renderMoreButton()}
+        <PrintJson json={json} />
       </div>
     );
   }
@@ -112,7 +122,8 @@ const mapStateToProps = state => {
     collectionsTotal: collection.collectionsTotal,
     collections: collection.collections,
     nextUrl: collection.nextUrl,
-    isLoading: collection.isLoading
+    isLoading: collection.isLoading,
+    json: collection.fetchObjects
   };
 };
 

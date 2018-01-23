@@ -26,7 +26,7 @@ class VhItem extends Component {
 
   renderSegment(segment, i) {
     return (
-      <li>
+      <li key={i}>
         <Link to={`/interview/${segment.id}`}>
           <strong>{segment.title}</strong>
         </Link>{' '}

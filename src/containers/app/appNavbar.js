@@ -12,9 +12,6 @@ const AppNavbar = () => (
       <Navbar.Toggle />
       <Navbar.Collapse>
         <Nav>
-          <NavItem eventKey={1} href="/">
-            Home
-          </NavItem>
           <NavItem eventKey={2} href="/organizations">
             Organizations
           </NavItem>

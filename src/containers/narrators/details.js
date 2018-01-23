@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { fetchNarratorDetails } from '../../modules/fetchNarratorDetails';
+import { PrintJson } from '../../components';
 
 import './details.css';
 
@@ -36,7 +37,8 @@ class NarratorDetails extends Component {
       ethnicity,
       generation,
       gender,
-      birthLocation
+      birthLocation,
+      json
     } = this.props;
     return (
       <Grid>
@@ -53,6 +55,7 @@ class NarratorDetails extends Component {
             {this.renderIfAvailable('Birth Location', birthLocation)}
           </Col>
         </Row>
+        <PrintJson json={json} />
       </Grid>
     );
   }
@@ -70,7 +73,8 @@ const mapStateToProps = state => {
     ethnicity: narratorDetails.ethnicity,
     gender: narratorDetails.gender,
     generation: narratorDetails.generation,
-    birthLocation: narratorDetails.birthLocation
+    birthLocation: narratorDetails.birthLocation,
+    json: narratorDetails.fetchObject
   };
 };
 

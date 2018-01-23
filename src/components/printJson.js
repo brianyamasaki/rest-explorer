@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import JsonTree from 'react-json-tree';

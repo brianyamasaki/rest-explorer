@@ -1,22 +1,29 @@
-<p align="center"><a href="https://medium.com/@notrab/getting-started-with-create-react-app-redux-react-router-redux-thunk-d6a19259f71f"><img src="https://i.imgur.com/PATsTx2.png" title="View tutorial" alt="React, React Router, Redux and Redux Thunk" width="900"></a></p>
+# REST explorer for the Densho Project's REST API
 
-[![Dependency Status](https://dependencyci.com/github/notrab/create-react-app-redux/badge)](https://dependencyci.com/github/notrab/create-react-app-redux)
-
-* Tutorial: [Getting started with create-react-app, Redux, React Router & Redux Thunk](https://medium.com/@notrab/getting-started-with-create-react-app-redux-react-router-redux-thunk-d6a19259f71f)
-* Example: [View on Heroku](https://cra-redux-router-thunk.herokuapp.com/) 🙌
+Example: [View at yamasakidesign.com](http://densho.yamasakidesign.com/) 🙌
 
 ## Installation
 
+Creating this project requires [Node](http://www.nodesjs.org), followed by [Yarn](http://www.yarnpkg.com). Node is best supported on Linux and MacOS, though by installing long file names (paths > 256 chars) it might work on Windows.
+
 ```bash
-git clone https://github.com/notrab/create-react-app-redux.git
-cd create-react-app-redux
+git clone https://github.com/brianyamasaki/rest-explorer.git
+cd rest-explorer
 yarn
 ```
 
 ## Get started
 
+Starting the Development server is done by the following
+
 ```bash
 yarn start
 ```
 
-This boilerplate is built using [create-react-app](https://github.com/facebookincubator/create-react-app) so you will want to read the User Guide for more goodies.
+Creating an optimized release version is done by the following
+
+```bash
+yarn build
+```
+
+This project is built using [create-react-app](https://github.com/facebookincubator/create-react-app) so you will want to read the User Guide for more goodies.

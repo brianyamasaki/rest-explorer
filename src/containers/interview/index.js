@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { Grid, Row, Col } from 'react-bootstrap';
 import { fetchInterviewSegment } from '../../modules/fetchInterviewSegment';
+import { PrintJson } from '../../components';
 
 class Interview extends Component {
   componentDidMount() {
@@ -17,7 +17,7 @@ class Interview extends Component {
   }
 
   render() {
-    const { name, description, credit, link, transcript } = this.props;
+    const { name, description, credit, json } = this.props;
     return (
       <div>
         <h1>{name}</h1>
@@ -25,6 +25,7 @@ class Interview extends Component {
           <strong>Description:</strong> {description}
         </p>
         <p>{credit}</p>
+        <PrintJson json={json} />
       </div>
     );
   }
@@ -39,7 +40,8 @@ const mapStateToProps = state => {
     credit: interviewSegment.credit,
     links: interviewSegment.links,
     transcript: interviewSegment.transcript,
-    mpeg: interviewSegment.mpeg
+    mpeg: interviewSegment.mpeg,
+    json: interviewSegment.fetchObject
   };
 };
 

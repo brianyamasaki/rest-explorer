@@ -9,7 +9,7 @@ export const FETCH_INTERVIEW_FILES_SUCCESS =
   'fetch_interview_segments/fetch_files_success';
 
 const initialState = {
-  fetchObjects: '',
+  fetchObject: '',
   id: '',
   name: '',
   description: '',
@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        fetchObjects: action.payload,
+        fetchObject: action.payload,
         id: action.payload.id,
         name: action.payload.title,
         description: action.payload.description,

@@ -1,1 +1,2 @@
-export * from './moreButton.js';
+export * from './moreButton';
+export * from './printJson';

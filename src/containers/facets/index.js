@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchFacets } from '../../modules/fetchFacets';
+import { PrintJson } from '../../components';
 
 class Organizations extends Component {
   componentDidMount() {
@@ -34,6 +35,7 @@ class Organizations extends Component {
         <h1 className="pageTitle">Facets</h1>
         {this.renderFacetList()}
         {this.renderMoreButton()}
+        <PrintJson json={this.props.json} />
       </div>
     );
   }
@@ -43,7 +45,8 @@ const mapStateToProps = state => {
   const { facets } = state;
   return {
     facets: facets.facets,
-    nextUrl: facets.nextUrl
+    nextUrl: facets.nextUrl,
+    json: facets.fetchObjects
   };
 };
 

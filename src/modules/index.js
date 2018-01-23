@@ -11,6 +11,8 @@ import facets from './fetchFacets';
 import facetDetails from './fetchFacetDetails';
 import narrators from './fetchNarrators';
 import narratorDetails from './fetchNarratorDetails';
+import interviewDetails from './fetchInterviewDetails';
+import interviewSegment from './fetchInterviewSegment';
 
 export default combineReducers({
   router: routerReducer,
@@ -24,5 +26,7 @@ export default combineReducers({
   facets,
   facetDetails,
   narrators,
-  narratorDetails
+  narratorDetails,
+  interviewDetails,
+  interviewSegment
 });

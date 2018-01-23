@@ -14,6 +14,10 @@ const initialState = {
   middleName: '',
   links: '',
   bio: '',
+  ethnicity: '',
+  gender: '',
+  generation: '',
+  birthLocation: '',
   isLoading: false,
   errMsg: ''
 };
@@ -39,6 +43,10 @@ export default (state = initialState, action) => {
         middleName: payload.middle_name,
         links: payload.links,
         bio: payload.bio,
+        ethnicity: payload.ethnicity,
+        gender: payload.gender,
+        generation: payload.generation,
+        birthLocation: payload.birth_location,
         isLoading: false
       };
     case FETCH_NARRATOR_DETAILS_FAIL:

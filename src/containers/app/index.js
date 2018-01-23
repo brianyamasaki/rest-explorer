@@ -9,6 +9,7 @@ import Facets from '../facets';
 import FacetDetails from '../facets/details';
 import Narrators from '../narrators';
 import NarratorDetails from '../narrators/details';
+import Interview from '../interview';
 import About from '../about';
 import AppNavbar from './appNavbar';
 
@@ -26,6 +27,7 @@ const App = () => (
         <Route path="/facets/:id" component={FacetDetails} />
         <Route exact path="/narrators" component={Narrators} />
         <Route path="/narrators/:id" component={NarratorDetails} />
+        <Route path="/interview/:id" component={Interview} />
         <Route exact path="/about-us" component={About} />
         <Route component={Home} />
       </Switch>

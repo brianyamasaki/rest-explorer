@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
+import VhItem from './vhItem';
 import { fetchItemDetails } from '../../modules/fetchItemDetails';
 
 import './index.css';
@@ -67,12 +68,13 @@ class Item extends Component {
   }
 
   render() {
-    const { format } = this.props;
+    const { format, itemDetails } = this.props;
     switch (format) {
       case 'img':
       case 'doc':
-      case 'vh':
         return this.renderImg();
+      case 'vh':
+        return <VhItem itemDetails={itemDetails} />;
       default:
         console.log(`Cannot render ${format}`);
         break;
@@ -84,6 +86,7 @@ class Item extends Component {
 const mapStateToProps = state => {
   const { itemDetails } = state;
   return {
+    itemDetails,
     id: itemDetails.id,
     name: itemDetails.name,
     description: itemDetails.description,

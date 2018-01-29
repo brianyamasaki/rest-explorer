@@ -1,5 +1,5 @@
 {
-  "name": "create-react-app-redux",
+  "name": "rest-explorer",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
@@ -7,6 +7,9 @@
   },
   "dependencies": {
     "bootstrap": "3",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "jest-fetch-mock": "^1.4.1",
     "node-sass-chokidar": "^0.0.3",
     "npm-run-all": "^4.1.2",
     "react": "^16.2.0",
@@ -17,14 +20,17 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "next",
+    "react-test-renderer": "^16.2.0",
     "redux": "^3.7.2",
+    "redux-mock-store": "^1.4.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
     "sanitize.css": "^5.0.0"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css":
+      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "react-scripts build",

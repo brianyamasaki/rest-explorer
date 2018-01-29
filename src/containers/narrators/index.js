@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { MoreButton } from '../../components';
 import { fetchNarrators } from '../../modules/fetchNarrators';
+import { PrintJson } from '../../components';
 
 import './index.css';
 
@@ -61,9 +62,10 @@ class Narrators extends Component {
   render() {
     return (
       <div>
-        <h1 className="pageTitle">Narrators</h1>
+        <h1>Narrators</h1>
         {this.renderNarratorList()}
         {this.renderMoreButton()}
+        <PrintJson json={this.props.json} title="Narrators" />
       </div>
     );
   }
@@ -75,7 +77,8 @@ const mapStateToProps = state => {
     id: narrators.id,
     narrators: narrators.narrators,
     nextUrl: narrators.nextUrl,
-    isLoading: narrators.isLoading
+    isLoading: narrators.isLoading,
+    json: narrators.fetchObjects
   };
 };
 

@@ -93,11 +93,17 @@ class OrganizationDetails extends Component {
   }
 
   render() {
-    const { name, description, websiteUrl, json } = this.props;
+    const {
+      name,
+      description,
+      websiteUrl,
+      jsonOrg,
+      jsonCollection
+    } = this.props;
     return (
       <div>
         <h1>{name}</h1>
-        <h4 className="pageTitle">Description</h4>
+        <h4>Description</h4>
         <p>{description}</p>
         {this.renderCollectionsTotal()}
         <p>
@@ -106,7 +112,8 @@ class OrganizationDetails extends Component {
         </p>
         {this.renderCollections()}
         {this.renderMoreButton()}
-        <PrintJson json={json} />
+        <PrintJson json={jsonOrg} title="Organization Details" />
+        <PrintJson json={jsonCollection} title="Collection Details" />
       </div>
     );
   }
@@ -119,11 +126,12 @@ const mapStateToProps = state => {
     collectionsUrl: orgDetails.collectionsUrl,
     description: orgDetails.description,
     websiteUrl: orgDetails.websiteUrl,
+    jsonOrg: orgDetails.fetchObject,
     collectionsTotal: collection.collectionsTotal,
     collections: collection.collections,
     nextUrl: collection.nextUrl,
     isLoading: collection.isLoading,
-    json: collection.fetchObjects
+    jsonCollection: collection.fetchObjects
   };
 };
 

@@ -57,14 +57,14 @@ class Item extends Component {
     const { name, description, links, creation, json } = this.props;
     return (
       <div className="itemDetail">
-        <h1 className="pageTitle">{name}</h1>
+        <h1>{name}</h1>
         <img src={links.img} alt={description} />
         <p className="creationDate">Created: {creation}</p>
         <p>Description: {description}</p>
         {this.renderPersons()}
         {this.renderCredit()}
         {this.renderWebsiteLink()}
-        <PrintJson json={json} />
+        <PrintJson json={json} title="Item" />
       </div>
     );
   }

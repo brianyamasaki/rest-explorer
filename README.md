@@ -26,4 +26,4 @@ Creating an optimized release version is done by the following
 yarn build
 ```
 
-This project is built using [create-react-app](https://github.com/facebookincubator/create-react-app) so you will want to read the User Guide for more goodies.
+This project is built using [create-react-app](https://github.com/facebookincubator/create-react-app) so you will want to read that User Guide for more goodies.

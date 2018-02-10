@@ -4,7 +4,7 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import VhItem from './vhItem';
 import { fetchItemDetails } from '../../modules/fetchItemDetails';
-import { PrintJson } from '../../components';
+import { ImgAnnotator, PrintJson } from '../../components';
 
 import './index.css';
 
@@ -58,7 +58,7 @@ class Item extends Component {
     return (
       <div className="itemDetail">
         <h1 className="pageTitle">{name}</h1>
-        <img src={links.img} alt={description} />
+        <ImgAnnotator src={links.img} alt={description} />
         <p className="creationDate">Created: {creation}</p>
         <p>Description: {description}</p>
         {this.renderPersons()}

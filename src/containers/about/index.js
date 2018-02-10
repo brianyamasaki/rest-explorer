@@ -20,8 +20,8 @@ const About = () => (
     </p>
     <pre>
       <code class="lang-bash">
-        git <span class="hljs-keyword">clone</span>{' '}
-        <span class="hljs-title">https</span>://github.com/brianyamasaki/rest-explorer.git
+        git <span class="hljs-keyword">clone</span>{' '}<br />
+        <span class="hljs-title">https</span>://github.com/brianyamasaki/rest-explorer.git<br />
         cd rest-explorer yarn
       </code>
     </pre>

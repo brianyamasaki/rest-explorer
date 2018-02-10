@@ -12,5 +12,17 @@
     color: white;
     text-align: center;
     font-size: 10px;
+    user-select: none;
+    .resizer {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+    .title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
   }
 }

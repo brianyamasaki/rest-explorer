@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
 import { Glyphicon, Button } from 'react-bootstrap';
+import  PowerIcon from '../powerIcon';
 
 import './index.css';
-const dftAnnotation = {
-  title: 'annotation',
-  location: {
-    pctY: .5,
-    pctX: .5,
-    height: 50,
-    width: 100
-  }
-};
 const NAME = 'Image_annotator';
 
 class ImgAnnotator extends Component {
@@ -22,6 +14,7 @@ class ImgAnnotator extends Component {
   };
   element;
   dragStart;
+  isMouseCaptured;
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.onWindowResize.bind(this));
@@ -90,15 +83,34 @@ class ImgAnnotator extends Component {
     });
   }
 
-  renderAnnotation(item, i) {
-    const annotationHeight = item.location.pctHeight * this.state.imgHeight;
-    const annotationWidth = item.location.pctWidth * this.state.imgWidth;
-    const location = {
-      top: this.state.imgHeight * item.location.pctY - (annotationHeight / 2),
-      left: this.state.imgWidth * item.location.pctX - (annotationWidth / 2),
-      height: annotationHeight,
-      width: annotationWidth
+  annotationToPixels(annotation) {
+    const { imgWidth, imgHeight } = this.state;
+    const width = annotation.location.pctWidth * imgWidth;
+    const height = annotation.location.pctHeight * imgHeight;
+    const top = annotation.location.pctY * imgHeight - (height / 2);
+    const left = annotation.location.pctX * imgWidth - (width / 2);
+    return {
+      top,
+      left,
+      width,
+      height
     };
+  }
+
+  onMouseDown(e) {
+    console.log('mouse down', e.clientX);
+  }
+
+  onMouseMove(e) {
+    // console.log('mouse move', e)
+  }
+
+  onMouseUp(e) {
+    console.log('mouse up ', e.clientX)
+  }
+
+  renderAnnotation(item, i) {
+    const location = this.annotationToPixels(item);
     return (
       <div 
         className="annotation" 
@@ -108,9 +120,15 @@ class ImgAnnotator extends Component {
         draggable
         onDragStart={this.onDragStart.bind(this)}
         onDragEnd={this.onDragEnd.bind(this)}
-        onClick={this.onClickAnnotation.bind(this)}
       >
-        {item.title}
+        <span className="title">{item.title}</span>
+        <i 
+          className="resizer" 
+          onMouseDown={this.onMouseDown.bind(this)}
+          onMouseUp={this.onMouseUp.bind(this)}
+        >
+          <Glyphicon glyph="resize-full" />
+        </i>
       </div>
     );
   }
@@ -125,7 +143,7 @@ class ImgAnnotator extends Component {
     return (
       <div className="toolbar">
         <Button className="btn-primary" onClick={this.onClickToggle.bind(this)} >
-          <Glyphicon glyph="pencil" />
+          <PowerIcon height={16} width={16} />
         </Button>
         <Button className="btn-primary" onClick={this.onClickAddAnnotation.bind(this)}>
           <Glyphicon glyph="plus-sign" />

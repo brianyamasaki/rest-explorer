@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Glyphicon, Button } from 'react-bootstrap';
+import { Glyphicon, Button, OverlayTrigger, Popover } from 'react-bootstrap';
 import  PowerIcon from '../powerIcon';
 
 import './index.css';
@@ -10,15 +10,32 @@ class ImgAnnotator extends Component {
     showAnnotations: true,
     annotations: [],
     imgHeight: 0,
-    imgWidth: 0
+    imgWidth: 0,
+    annotationCur: null
   };
   element;
-  dragStart;
-  isMouseCaptured;
+
+  componentDidMount() {
+    const { annotations } = this.props;
+    if (annotations) {
+      this.setState({
+        annotations
+      });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.annotations !== this.state.annotations) {
+      this.setState({
+        annotations: nextProps.annotations
+      });
+    }
+  }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.onWindowResize.bind(this));
   }
+
   onWindowResize() {
     this.setState({
       imgHeight: this.element.clientHeight,
@@ -41,6 +58,16 @@ class ImgAnnotator extends Component {
     });
   }
 
+  offsetXYFromParent(clientX, clientY, offsetParent) {
+    const isBody = offsetParent === offsetParent.ownerDocument.body;
+    const offsetParentRect = isBody ? {left: 0, top: 0} : offsetParent.getBoundingClientRect();
+  
+    const x = clientX + offsetParent.scrollLeft - offsetParentRect.left;
+    const y = clientY + offsetParent.scrollTop - offsetParentRect.top;
+  
+    return {x, y};
+  }
+
   onClickAddAnnotation(e) {
     this.setState({
       annotations: this.state.annotations.concat({
@@ -55,81 +82,107 @@ class ImgAnnotator extends Component {
     });
   }
 
-  onClickAnnotation(e) {
-    console.log('clicked on annotation');
-  }
-
-  onDragStart(e) {
-    const index = e.target.getAttribute('index');
-    const annotation = this.state.annotations[index];
-    this.dragStart = {
-      x: (annotation.location.pctX * this.state.imgWidth) - e.clientX,
-      y: (annotation.location.pctY * this.state.imgHeight) - e.clientY
-    };
-    console.log('annotation drag start', this.dragStart);
-  }
-
-  onDragEnd(e) {
-    const index = e.target.getAttribute('index');
-    const annotations = this.state.annotations.slice(0);
-    const annotation = annotations[index];
-    const pctX = Math.min(Math.max(0, (e.clientX + this.dragStart.x) / this.state.imgWidth), 1);
-    const pctY = Math.min(Math.max(0, (e.clientY + this.dragStart.y) / this.state.imgHeight), 1);
-
-    annotation.location.pctX = pctX;
-    annotation.location.pctY = pctY;
+  onMouseDown(e) {
+    if (this.state.annotationCur) {
+      this.setState({
+        annotationCur: null
+      });
+      return;
+    }
+    const {x, y} = this.offsetXYFromParent(e.clientX, e.clientY, e.target.parentElement);
     this.setState({
-      annotations
+      annotations: this.state.annotations.concat({
+        title: '',
+        location: {
+          pctY: y / this.state.imgHeight,
+          pctX: x / this.state.imgWidth,
+          pctHeight: 0,
+          pctWidth: 0
+        }
+      }),
+      annotationCur: {
+        index: this.state.annotations.length,
+        startY: y,
+        startX: x,
+        endY: y,
+        endX: x
+      }
     });
   }
 
-  annotationToPixels(annotation) {
-    const { imgWidth, imgHeight } = this.state;
-    const width = annotation.location.pctWidth * imgWidth;
-    const height = annotation.location.pctHeight * imgHeight;
-    const top = annotation.location.pctY * imgHeight - (height / 2);
-    const left = annotation.location.pctX * imgWidth - (width / 2);
-    return {
-      top,
-      left,
-      width,
-      height
-    };
-  }
-
-  onMouseDown(e) {
-    console.log('mouse down', e.clientX);
+  calcMouseDrag(e, annotationCur) {
+    if (annotationCur) {
+      const {x, y} = this.offsetXYFromParent(e.clientX, e.clientY, e.target.parentElement);
+      annotationCur.endX = x;
+      annotationCur.endY = y;
+      const { startX, startY, endX, endY } = annotationCur;
+      return {
+        pctY: (startY + endY) / (this.state.imgHeight * 2),
+        pctX: (startX + endX) / (this.state.imgWidth * 2),
+        pctHeight: Math.abs(startY - endY) / this.state.imgHeight,
+        pctWidth: Math.abs(startX - endX) / this.state.imgWidth
+      }
+    }
   }
 
   onMouseMove(e) {
-    // console.log('mouse move', e)
+    if (this.state.annotationCur) {
+      const annotations = this.state.annotations.slice();
+      const annotationCur = { ...this.state.annotationCur };
+      annotations[this.state.annotationCur.index].location = this.calcMouseDrag(e, annotationCur);
+      this.setState({
+        annotations,
+        annotationCur
+      })
+    }
   }
 
   onMouseUp(e) {
-    console.log('mouse up ', e.clientX)
+    if (this.state.annotationCur !== null) {
+      const annotations = this.state.annotations.slice();
+      const annotationCur = { ...this.state.annotationCur };
+      annotations[this.state.annotationCur.index].location = this.calcMouseDrag(e, annotationCur);
+      console.log(annotations[annotationCur.index].location);
+      this.setState({
+        annotations,
+        annotationCur: null
+      });
+    }
+  }
+
+  annotationStyle(item) {
+    const { location } = item;
+    const style = {
+      left: (location.pctX - location.pctWidth / 2) * this.state.imgWidth,
+      top: (location.pctY - location.pctHeight / 2) * this.state.imgHeight,
+      width: location.pctWidth * this.state.imgWidth,
+      height: location.pctHeight * this.state.imgHeight
+    };
+    return style;
+  }
+
+  renderPopover(item, i) {
+    return (
+      <Popover id={`annotationPopover_${i}`} title={item.title}>
+        
+      </Popover>
+    )
   }
 
   renderAnnotation(item, i) {
-    const location = this.annotationToPixels(item);
     return (
-      <div 
-        className="annotation" 
-        style={{...location}} 
+      <OverlayTrigger
         key={i}
-        index={i}
-        draggable
-        onDragStart={this.onDragStart.bind(this)}
-        onDragEnd={this.onDragEnd.bind(this)}
+        trigger={["hover", "focus"]}
+        placement="bottom"
+        overlay={this.renderPopover(item, i)}
       >
-        <span className="title">{item.title}</span>
-        <i 
-          className="resizer" 
-          onMouseDown={this.onMouseDown.bind(this)}
-          onMouseUp={this.onMouseUp.bind(this)}
-        >
-          <Glyphicon glyph="resize-full" />
-        </i>
-      </div>
+        <div
+          key={i}
+          style={this.annotationStyle(item)}
+          className="annotation"
+        />
+      </OverlayTrigger>
     );
   }
 
@@ -160,14 +213,14 @@ class ImgAnnotator extends Component {
           src={src} 
           alt={alt} 
           name={NAME}
-          draggable={false}
+          draggable="false"
           onLoad={this.onImgLoad.bind(this)}
         />
         {this.renderAnnotations()}
-        {this.renderToolbar()}
       </div>
     )
   }
 }
+
 
 export { ImgAnnotator };

@@ -1,0 +1,162 @@
+{
+  "comments": [
+    {
+      "name": "Oregon Nikkei Endowment",
+      "comment": "Annotations from Oregon Nikkei Endowment",
+      "original_organization": true,
+      "annotations": [
+        {
+          "title": "Stogie Kawabata",
+          "location": {
+            "pctY": 0.358,
+            "pctX": 0.720,
+            "pctHeight": 0.094,
+            "pctWidth": 0.0674
+          }
+        },
+        {
+          "title": "Ted Taniguchi",
+          "location": {
+            "pctY": 0.518,
+            "pctX": 0.664,
+            "pctHeight": 0.124,
+            "pctWidth": 0.073
+          }
+        }
+      ]
+    },
+    {
+      "name": "SeriousEats",
+      "comment": "I know who these guys are!",
+      "liked": true,
+      "rating": 3.5,
+      "annotations": [
+        {
+          "title": "Stogie Kawabata",
+          "location": {
+            "pctY": 0.367,
+            "pctX": 0.20752,
+            "pctHeight":0.10,
+            "pctWidth": 0.0654
+          }
+        },
+        {
+          "title": "Harry Taniguchi",
+          "location": {
+            "pctY": 0.3507,
+            "pctX": 0.299,
+            "pctHeight": 0.1,
+            "pctWidth": 0.076
+          }
+        },
+        {
+          "title": "",
+          "location": {
+            "pctY": 0.354,
+            "pctX": 0.3975,
+            "pctHeight": 0.1,
+            "pctWidth": 0.0654
+          }
+        },
+        {
+          "title": "",
+          "location": {
+            "pctY": 0.35316,
+            "pctX": 0.4776,
+            "pctHeight": 0.1,
+            "pctWidth": 0.0674
+          }
+        },
+        {
+          "title": "Tak Ikeda",
+          "location": {
+            "pctY": 0.3375,
+            "pctX": 0.5571,
+            "pctHeight": 0.1,
+            "pctWidth": 0.0625
+          }
+        },
+        {
+          "title": "",
+          "location": {
+            "pctY": 0.3423,
+            "pctX": 0.6362,
+            "pctHeight": 0.1,
+            "pctWidth": 0.0625
+          }
+        },
+        {
+          "title": "Noboru (Nobi) Yamasaki",
+          "location": {
+            "pctY": 0.358,
+            "pctX": 0.720,
+            "pctHeight": 0.094,
+            "pctWidth": 0.0674
+          }
+        },
+        {
+          "title": "Frank Abe",
+          "location": {
+            "pctY": 0.4977,
+            "pctX": 0.261,
+            "pctHeight": 0.116,
+            "pctWidth": 0.083
+          }
+        },
+        {
+          "title": "",
+          "location": {
+            "pctY": 0.508,
+            "pctX": 0.376,
+            "pctHeight": 0.117,
+            "pctWidth": 0.085
+          }
+        },
+        {
+          "title": "",
+          "location": {
+            "pctY": 0.507,
+            "pctX": 0.475,
+            "pctHeight": 0.113,
+            "pctWidth": 0.074
+          }
+        },
+        {
+          "title": "",
+          "location": {
+            "pctY": 0.519,
+            "pctX": 0.552,
+            "pctHeight": 0.128,
+            "pctWidth": 0.065
+          }
+        },
+        {
+          "title": "Ted Taniguchi",
+          "location": {
+            "pctY": 0.518,
+            "pctX": 0.664,
+            "pctHeight": 0.124,
+            "pctWidth": 0.073
+          }
+        }
+      ]
+    },
+    {
+      "name": "Howdy McLaren",
+      "comment": "Yeah, I noticed they have Stogie Kawabata on the right side, but he's really on the left side",
+      "liked": false,
+      "rating": 2,
+      "annotations": [
+        {
+          "title": "Stogie Kawabata",
+          "location": {
+            "pctY": 0.367,
+            "pctX": 0.20752,
+            "pctHeight":0.10,
+            "pctWidth": 0.0654
+          }
+        }
+      ]
+    }
+  ]
+}

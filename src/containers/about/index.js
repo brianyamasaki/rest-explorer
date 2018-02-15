@@ -6,9 +6,9 @@ const About = () => (
       REST explorer for the Densho Project&#39;s REST API
     </h1>
     <p>
-      Example:{' '}
-      <a href="http://densho.yamasakidesign.com/">
-        View at densho.yamasakidesign.com
+      Source code available at:{' '}
+      <a href="https://github.com/brianyamasaki/rest-explorer">
+        https://github.com/brianyamasaki/rest-explorer
       </a>{' '}
     </p>
     <h2 id="installation">Installation</h2>
@@ -43,7 +43,7 @@ const About = () => (
       <a href="https://github.com/facebookincubator/create-react-app">
         create-react-app
       </a>{' '}
-      so you will want to read the User Guide for more goodies.
+      so you will want to read that User Guide for more goodies.
     </p>
   </div>
 );

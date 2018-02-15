@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getOrgList } from '../../modules/fetchOrgs';
 import { Media } from 'react-bootstrap';
+import { PrintJson } from '../../components';
 
 import './index.css';
 
@@ -46,9 +47,10 @@ class Organizations extends Component {
   render() {
     return (
       <div>
-        <h1 className="pageTitle">Affiliated Organizations</h1>
+        <h1>Affiliated Organizations</h1>
 
         {this.renderOrgList()}
+        <PrintJson json={this.props.json} title="Organization List" />
       </div>
     );
   }
@@ -56,7 +58,8 @@ class Organizations extends Component {
 
 const mapStateToProps = state => ({
   isFetching: state.orgList.isLoading,
-  organizations: state.orgList.organizations
+  organizations: state.orgList.organizations,
+  json: state.orgList.fetchObjects
 });
 
 const mapDispatchToProps = dispatch =>

@@ -32,10 +32,10 @@ class Organizations extends Component {
   render() {
     return (
       <div>
-        <h1 className="pageTitle">Facets</h1>
+        <h1>Facets</h1>
         {this.renderFacetList()}
         {this.renderMoreButton()}
-        <PrintJson json={this.props.json} />
+        <PrintJson json={this.props.json} title="Facets" />
       </div>
     );
   }

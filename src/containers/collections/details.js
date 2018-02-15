@@ -7,6 +7,7 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { fetchCollectionDetails } from '../../modules/fetchCollectionDetails';
 import { fetchCollectionItems } from '../../modules/fetchCollectionItems';
 import { selectCollectionItem } from '../../modules/selectedCollectionItem';
+import { PrintJson } from '../../components';
 
 import './details.css'; // Tell Webpack we use these
 
@@ -107,15 +108,23 @@ class CollectionDetails extends Component {
   }
 
   render() {
-    const { name, description, extent } = this.props;
+    const {
+      name,
+      description,
+      extent,
+      jsonCollection,
+      jsonDetails
+    } = this.props;
     return (
       <div>
-        <h1 className="pageTitle">{name}</h1>
+        <h1>{name}</h1>
         <h4>Description</h4>
         <p>{description}</p>
         <p>Extent: {extent}</p>
         {this.renderItems()}
         {this.renderMoreButton()}
+        <PrintJson json={jsonDetails} title="Collection Details" />
+        <PrintJson json={jsonCollection} title="Collection Items" />
       </div>
     );
   }
@@ -129,9 +138,11 @@ const mapStateToProps = state => {
     extent: collectionDetails.extent,
     itemsUrl: collectionDetails.itemsUrl,
     collectionId: collectionDetails.id,
+    jsonDetails: collectionDetails.fetchObject,
     items: collectionItems.items,
     nextUrl: collectionItems.nextUrl,
-    isLoading: collectionItems.isLoading
+    isLoading: collectionItems.isLoading,
+    jsonCollection: collectionItems.fetchObjects
   };
 };
 

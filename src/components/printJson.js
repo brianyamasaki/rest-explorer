@@ -28,11 +28,19 @@ class PrintJson extends Component {
     display: false
   };
 
+  buttonTitle() {
+    const title = this.props.title ? this.props.title + ' ' : '';
+    if (this.state.display) {
+      return `Hide ${title}JSON`;
+    }
+    return `Show ${title}JSON`;
+  }
+
   render() {
     return (
       <div>
         <Button onClick={() => this.setState({ display: !this.state.display })}>
-          {this.state.display ? 'Hide Json' : 'Show Json'}
+          {this.buttonTitle()}
         </Button>
         <div style={{ display: this.state.display ? 'block' : 'none' }}>
           <JsonTree data={this.props.json} theme={theme} />

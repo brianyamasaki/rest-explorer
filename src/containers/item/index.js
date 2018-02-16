@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import VhItem from './vhItem';
@@ -30,6 +31,13 @@ class Item extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { name } = this.props;
+    if (name !== nextProps.name) {
+      document.title = `${nextProps.name} | Densho Explorer`;
+    }
+  }
+
   onCommentChange(i) {
     this.setState({
       commentIndex: i
@@ -53,8 +61,11 @@ class Item extends Component {
   }
 
   renderCredit() {
-    const { credit } = this.props;
+    const { credit, collectionId } = this.props;
     if (credit) {
+      if (collectionId) {
+        return <p><Link to={`/collections/${collectionId}`}>{credit}</Link></p>;
+      }
       return <p>{credit}</p>;
     }
   }
@@ -105,6 +116,7 @@ class Item extends Component {
     switch (format) {
       case 'img':
       case 'doc':
+      case 'av':
         return this.renderImg();
       case 'vh':
         return <VhItem itemDetails={itemDetails} />;
@@ -145,7 +157,8 @@ const mapStateToProps = state => {
     persons: itemDetails.persons,
     credit: itemDetails.credit,
     json: itemDetails.fetchObject,
-    isLoading: itemDetails.isLoading
+    isLoading: itemDetails.isLoading,
+    collectionId: itemDetails.collectionId
   };
 };
 

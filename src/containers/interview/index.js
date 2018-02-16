@@ -16,6 +16,13 @@ class Interview extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { name } = this.props;
+    if (name !== nextProps.name) {
+      document.title = `${nextProps.name} | Densho Explorer`;
+    }
+  }
+
   render() {
     const { name, description, credit, json } = this.props;
     return (

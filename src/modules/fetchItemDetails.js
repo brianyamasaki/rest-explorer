@@ -15,6 +15,7 @@ const initialState = {
   creation: '',
   persons: [],
   credit: '',
+  collectionId: '',
   errMsg: ''
 };
 
@@ -40,6 +41,7 @@ export default (state = initialState, action) => {
         creation: payload.creation,
         persons: payload.persons,
         credit: payload.credit,
+        collectionId: payload.collection_id,
         isLoading: false
       };
     case FETCH_ITEM_DETAILS_FAIL:

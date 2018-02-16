@@ -73,7 +73,7 @@ class CommentList extends Component {
   render() {
     return (
       <Carousel 
-        interval={10000} 
+        interval={null} 
         pauseOnHover={true} 
         onSelect={this.props.onCommentChange.bind(this)}
       >

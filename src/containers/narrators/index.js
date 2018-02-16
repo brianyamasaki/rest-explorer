@@ -12,6 +12,7 @@ class Narrators extends Component {
   componentDidMount() {
     const { narrators } = this.props;
     if (!narrators.length) this.props.fetchNarrators();
+    document.title = 'Narrators | Densho Explorer';
   }
 
   getMore() {

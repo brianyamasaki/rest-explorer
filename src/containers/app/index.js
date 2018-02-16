@@ -12,6 +12,7 @@ import NarratorDetails from '../narrators/details';
 import Interview from '../interview';
 import About from '../about';
 import AppNavbar from './appNavbar';
+import Person from '../person';
 
 const App = () => (
   <div>
@@ -20,14 +21,15 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/organizations" component={Organizations} />
-        <Route path="/organizations/:id" component={OrganizationDetails} />
-        <Route path="/collections/:id" component={CollectionDetails} />
-        <Route path="/item/:id" component={Item} />
+        <Route exact path="/organizations/:id" component={OrganizationDetails} />
+        <Route exact path="/collections/:id" component={CollectionDetails} />
+        <Route exact path="/item/:id" component={Item} />
         <Route exact path="/facets" component={Facets} />
-        <Route path="/facets/:id" component={FacetDetails} />
+        <Route exact path="/facets/:id" component={FacetDetails} />
         <Route exact path="/narrators" component={Narrators} />
-        <Route path="/narrators/:id" component={NarratorDetails} />
-        <Route path="/interview/:id" component={Interview} />
+        <Route exact path="/narrators/:id" component={NarratorDetails} />
+        <Route exact path="/person/:id" component={Person} />
+        <Route exact path="/interview/:id" component={Interview} />
         <Route exact path="/about-us" component={About} />
         <Route component={Home} />
       </Switch>

@@ -19,6 +19,13 @@ class NarratorDetails extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { displayName } = this.props;
+    if (displayName !== nextProps.displayName) {
+      document.title = `${nextProps.displayName} | Densho Explorer`;
+    }
+  }
+
   renderIfAvailable(label, string) {
     if (string) {
       return (

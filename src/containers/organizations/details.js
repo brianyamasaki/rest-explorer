@@ -22,9 +22,12 @@ class OrganizationDetails extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { fetchCollection, collectionsUrl } = this.props;
+    const { fetchCollection, collectionsUrl, name } = this.props;
     if (nextProps.collectionsUrl !== collectionsUrl) {
       fetchCollection(nextProps.collectionsUrl);
+    }
+    if (nextProps.name !== name) {
+      document.title = `${nextProps.name} | Densho Explorer`
     }
   }
 

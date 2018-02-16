@@ -11,6 +11,7 @@ import './index.css';
 class Organizations extends Component {
   componentDidMount() {
     this.props.getOrgList();
+    document.title = 'List of Organizations | Densho Explorer';
   }
 
   renderOrgItem(item) {

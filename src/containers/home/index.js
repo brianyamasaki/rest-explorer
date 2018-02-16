@@ -16,6 +16,9 @@ const Home = () => (
         asset collections.
       </li>
       <li>
+        <Link to={'/item/ddr-one-1-28'}>Demonstration</Link> of how comments and annotations could work with entities.
+      </li>
+      <li>
         Also try visiting through our <Link to={'/narrators'}>Narrators</Link>{' '}
         page.
       </li>

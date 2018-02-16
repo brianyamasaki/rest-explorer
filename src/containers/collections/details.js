@@ -28,9 +28,12 @@ class CollectionDetails extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { fetchCollectionItems, itemsUrl } = this.props;
+    const { fetchCollectionItems, itemsUrl, name } = this.props;
     if (nextProps.itemsUrl !== itemsUrl) {
       fetchCollectionItems(nextProps.itemsUrl);
+    }
+    if (name !== nextProps.name) {
+      document.title = `${nextProps.name} | Densho Explorer`;
     }
   }
 
@@ -76,6 +79,7 @@ class CollectionDetails extends Component {
       case 'img':
       case 'doc':
       case 'vh':
+      case 'av':
         return this.renderImg(item, i);
       default:
         return (
@@ -107,6 +111,12 @@ class CollectionDetails extends Component {
     }
   }
 
+  renderJson(json, title) {
+    if (json) {
+      return <PrintJson json={json} title={title} />;
+    }
+  }
+
   render() {
     const {
       name,
@@ -123,8 +133,8 @@ class CollectionDetails extends Component {
         <p>Extent: {extent}</p>
         {this.renderItems()}
         {this.renderMoreButton()}
-        <PrintJson json={jsonDetails} title="Collection Details" />
-        <PrintJson json={jsonCollection} title="Collection Items" />
+        {this.renderJson(jsonDetails, "Collection Details")}
+        {this.renderJson(jsonCollection, "Collection Items")}
       </div>
     );
   }

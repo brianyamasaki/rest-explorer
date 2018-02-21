@@ -1,7 +1,9 @@
 .img-annotator {
   position: relative;
+  border: 1px solid black;
   img {
     user-select: none;
+    max-width: 100%;
   }
   .toolbar {
     position: absolute;

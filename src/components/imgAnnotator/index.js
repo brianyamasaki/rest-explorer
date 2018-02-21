@@ -1,30 +1,58 @@
 import React, { Component } from 'react';
-import { Glyphicon, Button, OverlayTrigger, Popover } from 'react-bootstrap';
-import  PowerIcon from '../powerIcon';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
 
 import './index.css';
 const NAME = 'Image_annotator';
 
 class ImgAnnotator extends Component {
+  static defaultProps = {
+    hide: false,
+    src: '',
+    alt: '',
+    annotations: [],
+    maxHeight: ''
+  };
   state = {
     showAnnotations: true,
     annotations: [],
     imgHeight: 0,
     imgWidth: 0,
-    annotationCur: null
+    annotationCur: null,
+    hide: false,
+    opacity: 1
   };
   element;
+  nativeHeight;
+  nativeWidth;
+  scaling = 1;
 
   componentDidMount() {
-    const { annotations } = this.props;
+    const { annotations, hide } = this.props;
     if (annotations) {
       this.setState({
-        annotations
+        annotations,
+        hide,
+        opacity: hide ? 0 : 1
       });
     }
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.hide !== this.state.hide) {
+      this.setState({
+        hide: nextProps.hide
+      }, () => this.onWindowResize.bind(this));
+      const interval = window.setInterval(() => {
+        const { hide, opacity } = this.state;
+        if ((hide && opacity <= 0) || (!hide && opacity >= 1)) {
+          window.clearInterval(interval);
+        } else {
+          this.setState({
+            opacity: hide ? opacity - 0.1 : opacity + 0.1
+          })
+        }
+      }, 70);
+    }
     if (nextProps.annotations !== this.state.annotations) {
       this.setState({
         annotations: nextProps.annotations
@@ -37,25 +65,31 @@ class ImgAnnotator extends Component {
   }
 
   onWindowResize() {
+    this.calcImageSize(Math.max(this.element.clientHeight, this.nativeHeight));
     this.setState({
-      imgHeight: this.element.clientHeight,
-      imgWidth: this.element.clientWidth
+      imgHeight: Math.min(this.nativeHeight * this.scaling, this.element.clientHeight),
+      imgWidth: Math.min(this.nativeWidth * this.scaling, this.element.clientWidth)
     });
+  }
+
+  calcImageSize(height) {
+    const { maxHeight } = this.props;
+    if (maxHeight) {
+      this.scaling = Math.min(maxHeight / height, 1);
+      console.log(height, this.scaling, this.props.src);
+    }
   }
 
   onImgLoad(e) {
     this.element = e.target;
+    this.nativeHeight = e.target.height;
+    this.nativeWidth = e.target.width;
+    this.calcImageSize(this.nativeHeight);
     this.setState({
-      imgHeight: e.target.height,
-      imgWidth: e.target.width
-    })
-    window.addEventListener('resize', this.onWindowResize.bind(this));
-  }
-
-  onClickToggle(e) {
-    this.setState({
-      showAnnotations: !this.state.showAnnotations
+      imgHeight: this.nativeHeight * this.scaling,
+      imgWidth: this.nativeWidth * this.scaling
     });
+    window.addEventListener('resize', this.onWindowResize.bind(this));
   }
 
   offsetXYFromParent(clientX, clientY, offsetParent) {
@@ -66,20 +100,6 @@ class ImgAnnotator extends Component {
     const y = clientY + offsetParent.scrollTop - offsetParentRect.top;
   
     return {x, y};
-  }
-
-  onClickAddAnnotation(e) {
-    this.setState({
-      annotations: this.state.annotations.concat({
-        title: 'annotation',
-        location: {
-          pctY: .5,
-          pctX: .5,
-          pctHeight: .1,
-          pctWidth: .1
-        }
-      })
-    });
   }
 
   onMouseDown(e) {
@@ -187,34 +207,28 @@ class ImgAnnotator extends Component {
   }
 
   renderAnnotations() {
-    if (this.state.showAnnotations) {
+    if (this.state.showAnnotations && !this.state.hide) {
       return this.state.annotations.map(this.renderAnnotation.bind(this));
     }
   }
 
-  renderToolbar() {
-    return (
-      <div className="toolbar">
-        <Button className="btn-primary" onClick={this.onClickToggle.bind(this)} >
-          <PowerIcon height={16} width={16} />
-        </Button>
-        <Button className="btn-primary" onClick={this.onClickAddAnnotation.bind(this)}>
-          <Glyphicon glyph="plus-sign" />
-        </Button>
-      </div>
-    );
-  }
-
   render() {
     const { src, alt } = this.props;
+    let style = {};
+    if (this.scaling < 1) {
+      style = {
+        width: this.state.imgWidth
+      };
+    }
     return (
-      <div className="img-annotator">
+      <div className={`img-annotator`} style={{opacity: this.state.opacity }}>
         <img 
           src={src} 
           alt={alt} 
           name={NAME}
           draggable="false"
           onLoad={this.onImgLoad.bind(this)}
+          style={style}
         />
         {this.renderAnnotations()}
       </div>

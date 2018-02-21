@@ -7,6 +7,7 @@ import collection from './fetchCollection';
 import collectionDetails from './fetchCollectionDetails';
 import collectionItems from './fetchCollectionItems';
 import itemDetails from './fetchItemDetails';
+import itemDetailsArray from './fetchItemDetailsArray';
 import facets from './fetchFacets';
 import facetDetails from './fetchFacetDetails';
 import narrators from './fetchNarrators';
@@ -23,6 +24,7 @@ export default combineReducers({
   collectionDetails,
   collectionItems,
   itemDetails,
+  itemDetailsArray,
   facets,
   facetDetails,
   narrators,

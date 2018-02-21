@@ -1,0 +1,82 @@
+{
+  "displayName": "Patsy Yorita",
+  "firstName": "Patsy",
+  "lastName": "Yorita",
+  "exhibits": [
+    {
+      "format": "img",
+      "id": "ddr-densho-2-1",
+      "annotations": [
+        {
+          "title": "Patsy Yorita",
+          "location": {
+            "pctY": 0.47,
+            "pctX": 0.5,
+            "pctHeight": 0.15,
+            "pctWidth": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "format": "img",
+      "id": "ddr-densho-2-2",
+      "annotations": [
+        {
+          "title": "Patsy Yorita",
+          "location": {
+            "pctY": 0.35,
+            "pctX": 0.45,
+            "pctHeight": 0.2,
+            "pctWidth": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "format": "img",
+      "id": "ddr-densho-2-6",
+      "annotations": [
+        {
+          "title": "Patsy Yorita",
+          "location": {
+            "pctY": 0.5,
+            "pctX": 0.45,
+            "pctHeight": 0.15,
+            "pctWidth": 0.1
+          }
+        }
+      ]
+    },
+    {
+      "format": "img",
+      "id": "ddr-densho-2-10",
+      "annotations": [
+        {
+          "title": "Patsy Yorita",
+          "location": {
+            "pctY": 0.27,
+            "pctX": 0.35,
+            "pctHeight": 0.2,
+            "pctWidth": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "format": "img",
+      "id": "ddr-densho-2-12",
+      "annotations": [
+        {
+          "title": "Patsy Yorita",
+          "location": {
+            "pctY": 0.46,
+            "pctX": 0.4,
+            "pctHeight": 0.15,
+            "pctWidth": 0.1
+          }
+        }
+      ]
+    }
+  ]
+}

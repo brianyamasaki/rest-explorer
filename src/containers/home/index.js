@@ -19,6 +19,9 @@ const Home = () => (
         <Link to={'/item/ddr-one-1-28'}>Demonstration</Link> of how comments and annotations could work with entities.
       </li>
       <li>
+        <Link to='/person/1'>Demonstration</Link> of how person slide shows could work.
+      </li>
+      <li>
         Also try visiting through our <Link to={'/narrators'}>Narrators</Link>{' '}
         page.
       </li>

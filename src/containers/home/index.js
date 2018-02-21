@@ -16,10 +16,10 @@ const Home = () => (
         asset collections.
       </li>
       <li>
-        <Link to={'/item/ddr-one-1-28'}>Demonstration</Link> of how comments and annotations could work with entities.
+        Demonstration of how <Link to={'/item/ddr-one-1-28'}>comments and annotations</Link> could work with entities.
       </li>
       <li>
-        <Link to='/person/1'>Demonstration</Link> of how person slide shows could work.
+        Demonstration of how <Link to='/person/1'>person slide shows</Link>.
       </li>
       <li>
         Also try visiting through our <Link to={'/narrators'}>Narrators</Link>{' '}

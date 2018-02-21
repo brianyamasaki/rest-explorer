@@ -33,6 +33,8 @@ class SlideShow extends Component {
         hide={this.state.exhibitCur !== i}
         annotations={collection.exhibits[i].annotations}
         maxHeight={800}
+        title={exhibit.title}
+        description={exhibit.description}
       />
     );
   }

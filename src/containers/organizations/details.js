@@ -95,6 +95,12 @@ class OrganizationDetails extends Component {
     }
   }
 
+  renderJson(json, title) {
+    if (json) {
+      return <PrintJson json={json} title={title} />;
+    }
+  }
+
   render() {
     const {
       name,
@@ -115,8 +121,8 @@ class OrganizationDetails extends Component {
         </p>
         {this.renderCollections()}
         {this.renderMoreButton()}
-        <PrintJson json={jsonOrg} title="Organization Details" />
-        <PrintJson json={jsonCollection} title="Collection Details" />
+        {this.renderJson(jsonOrg, "Organization Details")}
+        {this.renderJson(jsonCollection, "Collection Details")}
       </div>
     );
   }

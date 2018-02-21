@@ -45,13 +45,19 @@ class Organizations extends Component {
     }
   }
 
+  renderJson() {
+    if (this.props.json) {
+      return <PrintJson json={this.props.json} title="Organization List" />;
+    }
+  }
+
   render() {
     return (
       <div>
         <h1>Affiliated Organizations</h1>
 
         {this.renderOrgList()}
-        <PrintJson json={this.props.json} title="Organization List" />
+        {this.renderJson()}
       </div>
     );
   }

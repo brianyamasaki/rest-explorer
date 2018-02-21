@@ -10,7 +10,9 @@ class ImgAnnotator extends Component {
     src: '',
     alt: '',
     annotations: [],
-    maxHeight: ''
+    maxHeight: '',
+    title: '',
+    description: ''
   };
   state = {
     showAnnotations: true,
@@ -76,7 +78,6 @@ class ImgAnnotator extends Component {
     const { maxHeight } = this.props;
     if (maxHeight) {
       this.scaling = Math.min(maxHeight / height, 1);
-      console.log(height, this.scaling, this.props.src);
     }
   }
 
@@ -213,7 +214,7 @@ class ImgAnnotator extends Component {
   }
 
   render() {
-    const { src, alt } = this.props;
+    const { src, alt, title, description } = this.props;
     let style = {};
     if (this.scaling < 1) {
       style = {
@@ -230,6 +231,8 @@ class ImgAnnotator extends Component {
           onLoad={this.onImgLoad.bind(this)}
           style={style}
         />
+        <h3>{title}</h3>
+        <p>{description}</p>
         {this.renderAnnotations()}
       </div>
     )

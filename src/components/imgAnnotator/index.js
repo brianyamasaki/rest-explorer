@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 
 import './index.css';
-const NAME = 'Image_annotator';
+const NEAR_ZERO = 0.01;
+const OPACITY_STEP = 0.1;
 
 class ImgAnnotator extends Component {
   static defaultProps = {
@@ -39,21 +40,23 @@ class ImgAnnotator extends Component {
     }
   }
 
+  fadeImage = () => {
+    const { hide, opacity } = this.state;
+    if ((hide && opacity <= 0) || (!hide && opacity >= 1)) {
+      window.clearInterval(this.interval);
+    } else {
+      this.setState({
+        opacity: hide ? Math.max(opacity - OPACITY_STEP, 0) : Math.min(opacity + OPACITY_STEP, 1)
+      })
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.hide !== this.state.hide) {
       this.setState({
         hide: nextProps.hide
-      }, () => this.onWindowResize.bind(this));
-      const interval = window.setInterval(() => {
-        const { hide, opacity } = this.state;
-        if ((hide && opacity <= 0) || (!hide && opacity >= 1)) {
-          window.clearInterval(interval);
-        } else {
-          this.setState({
-            opacity: hide ? opacity - 0.1 : opacity + 0.1
-          })
-        }
-      }, 70);
+      }, () => this.onWindowResize());
+      this.interval = window.setInterval(this.fadeImage, 70);
     }
     if (nextProps.annotations !== this.state.annotations) {
       this.setState({
@@ -67,17 +70,22 @@ class ImgAnnotator extends Component {
   }
 
   onWindowResize() {
-    this.calcImageSize(Math.max(this.element.clientHeight, this.nativeHeight));
+    const { clientWidth, clientHeight } = this.element;
+    if (clientWidth === 0) {
+      return;
+    }
+    this.calcImageSize(clientHeight, clientWidth);
     this.setState({
-      imgHeight: Math.min(this.nativeHeight * this.scaling, this.element.clientHeight),
-      imgWidth: Math.min(this.nativeWidth * this.scaling, this.element.clientWidth)
+      imgHeight: Math.min(this.nativeHeight * this.scaling, clientHeight),
+      imgWidth: Math.min(this.nativeWidth * this.scaling, clientWidth)
     });
   }
 
-  calcImageSize(height) {
+  calcImageSize(height, width) {
     const { maxHeight } = this.props;
     if (maxHeight) {
-      this.scaling = Math.min(maxHeight / height, 1);
+      const calculatedHeight = Math.min(width * this.nativeHeight / this.nativeWidth, height); 
+      this.scaling = Math.min(maxHeight / calculatedHeight, 1);
     }
   }
 
@@ -85,7 +93,7 @@ class ImgAnnotator extends Component {
     this.element = e.target;
     this.nativeHeight = e.target.height;
     this.nativeWidth = e.target.width;
-    this.calcImageSize(this.nativeHeight);
+    this.calcImageSize(this.nativeHeight, this.nativeWidth);
     this.setState({
       imgHeight: this.nativeHeight * this.scaling,
       imgWidth: this.nativeWidth * this.scaling
@@ -221,12 +229,15 @@ class ImgAnnotator extends Component {
         width: this.state.imgWidth
       };
     }
+    const { opacity } = this.state;
     return (
-      <div className={`img-annotator`} style={{opacity: this.state.opacity }}>
+      <div 
+        className={`img-annotator`} 
+        style={{opacity, display: opacity < NEAR_ZERO ? 'none' : 'block' }}
+      >
         <img 
           src={src} 
           alt={alt} 
-          name={NAME}
           draggable="false"
           onLoad={this.onImgLoad.bind(this)}
           style={style}

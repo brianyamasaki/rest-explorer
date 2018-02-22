@@ -36,7 +36,7 @@ class Person extends Component {
   render() {
     return (
       <div className="personCollection">
-        <h1>{this.state.collection.displayName} Collection</h1>
+        <h1 className="text-center">{this.state.collection.displayName} Collection</h1>
         {this.renderSlideShow()}
       </div>
     );

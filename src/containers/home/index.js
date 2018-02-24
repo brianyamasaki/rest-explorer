@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import AudioCapture from '../../components/media/audioCapture';
 
 const Home = () => (
   <div>
@@ -26,6 +27,7 @@ const Home = () => (
         page.
       </li>
     </ul>
+    <AudioCapture />
   </div>
 );
 

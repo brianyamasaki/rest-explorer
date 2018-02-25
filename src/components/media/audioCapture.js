@@ -9,10 +9,10 @@ class AudioCapture extends Component {
     stream: null,
     devices: [],
     isRecording: false,
+    mediaRecorder: null,
     recordings: []
   }
   chunks = [];
-  mediaRecorder;
 
   componentDidMount() {
     if (hasGetUserMedia()) {
@@ -21,12 +21,17 @@ class AudioCapture extends Component {
       };
       getUserMedia(constraints)
         .then(stream => {
+          const mediaRecorder = new MediaRecorder(stream);
+          if (mediaRecorder) {
+            mediaRecorder.ondataavailable = this.onRecorderDataAvailable.bind(this);
+            mediaRecorder.onstop = this.onRecorderStop.bind(this);    
+          }
           this.setState({
             supported: true,
+            mediaRecorder,
             stream
           });
           console.log('Audio Stream created');
-          this.mediaRecorder = new MediaRecorder(stream);
         })
         .catch(error => {
           console.log('Audio Stream not created');
@@ -51,27 +56,31 @@ class AudioCapture extends Component {
     }
   }
 
-  onDataAvailable(e) {
+  onRecorderStop(e) {
+    const blob = new Blob(this.chunks, { 'type': 'audio/ogg: codecs=opus'});
+    this.chunks = [];
+    console.log('stop recording');
+    this.setState({ 
+      isRecording: false,
+      recordings: this.state.recordings.concat(window.URL.createObjectURL(blob))
+    });
+  }
+
+  onRecorderDataAvailable(e) {
     this.chunks.push(e.data);
   }
 
   onClickRecord() {
+    const { mediaRecorder } = this.state;
+
     if (!this.state.isRecording) {
       // start recording
-      this.mediaRecorder.ondataavailable = this.onDataAvailable.bind(this);
-      this.mediaRecorder.start();
+      mediaRecorder.start();
       console.log('start recording');
       this.setState({ isRecording: true});
     } else {
       // stop recording
-      this.mediaRecorder.stop();
-      var blob = new Blob(this.chunks, { 'type': 'audio/ogg: codecs=opus'});
-      this.chunks = [];
-      console.log('stop recording');
-      this.setState({ 
-        isRecording: false,
-        recordings: this.state.recordings.concat(window.URL.createObjectURL(blob))
-      });
+      mediaRecorder.stop();
     }
     
   }
@@ -91,8 +100,9 @@ class AudioCapture extends Component {
   }
 
   renderButtons() {
-    if (this.mediaRecorder) {
-      const btnText = this.mediaRecorder.state === 'recording' ? 'Stop' : 'Record';
+    const { mediaRecorder } = this.state;
+    if (mediaRecorder) {
+      const btnText = mediaRecorder.state === 'recording' ? 'Stop' : 'Record';
       return (
         <div>
           <Button onClick={this.onClickRecord.bind(this)}>{btnText}</Button>

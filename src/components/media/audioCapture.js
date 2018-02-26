@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Button } from 'react-bootstrap';
+import { Button, Glyphicon } from 'react-bootstrap';
 import { hasGetUserMedia, getUserMedia, enumerateDevices, hasEnumerateDevices } from '../../shared';
 
 class AudioCapture extends Component {
@@ -34,6 +34,9 @@ class AudioCapture extends Component {
           console.log('Audio Stream created');
         })
         .catch(error => {
+          this.setState({
+            supported: false
+          });
           console.log('Audio Stream not created');
         })
     }
@@ -57,12 +60,15 @@ class AudioCapture extends Component {
   }
 
   onRecorderStop(e) {
-    const blob = new Blob(this.chunks, { 'type': 'audio/ogg: codecs=opus'});
+    const blob = new Blob(this.chunks, { 'type': 'audio/webm: codecs=opus'});
     this.chunks = [];
     console.log('stop recording');
     this.setState({ 
       isRecording: false,
-      recordings: this.state.recordings.concat(window.URL.createObjectURL(blob))
+      recordings: this.state.recordings.concat({
+        blob: window.URL.createObjectURL(blob),
+        filename: ''
+      })
     });
   }
 
@@ -102,10 +108,12 @@ class AudioCapture extends Component {
   renderButtons() {
     const { mediaRecorder } = this.state;
     if (mediaRecorder) {
-      const btnText = mediaRecorder.state === 'recording' ? 'Stop' : 'Record';
+      const glyph = mediaRecorder.state === 'recording' ? 
+          <Glyphicon glyph="stop"/> : 
+          "Record Message";
       return (
         <div>
-          <Button onClick={this.onClickRecord.bind(this)}>{btnText}</Button>
+          <Button onClick={this.onClickRecord.bind(this)}>{glyph}</Button>
         </div>
       );
     }
@@ -114,8 +122,8 @@ class AudioCapture extends Component {
   renderRecording(recording, i) {
     return (
       <li key={i}>
-        <audio controls src={recording} />
-        <Button onClick={() => this.onClickDelete(i)}>Delete</Button>
+        <audio controls src={recording.blob} />
+        <Button onClick={() => this.onClickDelete(i)}><Glyphicon glyph="remove" style={{color: "red" }}/></Button>
       </li>
     )
   }
@@ -131,9 +139,10 @@ class AudioCapture extends Component {
   }
 
   render() {
+    const title = this.state.supported ? 'Audio Recorder' : 'Audio Not Supported';
     return (
       <div>
-        <h3>Audio Devices</h3>
+        <h3>{title}</h3>
         {this.renderButtons()}
         {this.renderRecordings()}
       </div>

@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { Button, Glyphicon } from 'react-bootstrap';
-import { hasGetUserMedia, getUserMedia, enumerateDevices, hasEnumerateDevices } from '../../shared';
+import { 
+  hasMediaDevicesGetUserMedia, 
+  hasMediaDevicesEnumerateDevices, 
+  getMediaDevicesUserMedia, 
+  mediaDevicesEnumerateDevices,
+  getMedia
+} from '../../shared';
 
 class AudioCapture extends Component {
   state = {
@@ -9,39 +15,59 @@ class AudioCapture extends Component {
     stream: null,
     devices: [],
     isRecording: false,
+    isMediaStream: false,
     mediaRecorder: null,
     recordings: []
   }
   chunks = [];
 
   componentDidMount() {
-    if (hasGetUserMedia()) {
+    if (hasMediaDevicesGetUserMedia()) {
       const constraints = {
         audio: true
       };
-      getUserMedia(constraints)
+      getMediaDevicesUserMedia(constraints)
         .then(stream => {
-          const mediaRecorder = new MediaRecorder(stream);
-          if (mediaRecorder) {
-            mediaRecorder.ondataavailable = this.onRecorderDataAvailable.bind(this);
-            mediaRecorder.onstop = this.onRecorderStop.bind(this);    
+          try {
+            const mediaRecorder = new MediaRecorder(stream);
+            if (mediaRecorder) {
+              mediaRecorder.ondataavailable = this.onRecorderDataAvailable.bind(this);
+              mediaRecorder.onstop = this.onRecorderStop.bind(this);    
+            }
+            this.setState({
+              supported: true,
+              mediaRecorder,
+              stream
+            });
+            console.log('Audio Stream created');
           }
-          this.setState({
-            supported: true,
-            mediaRecorder,
-            stream
-          });
-          console.log('Audio Stream created');
+          catch(error) {
+            console.log('mediaRecorder not supported');
+            if (getMedia) {
+              getMedia(constraints, 
+                stream => {
+                  this.setState({
+                    isMediaStream: true,
+                    supported: true,
+                    stream
+                  }); 
+                  // const audioRecorder = new Recorder();
+                },
+                error => {
+                  console.log(error);
+                });
+            }
+          }
         })
         .catch(error => {
           this.setState({
             supported: false
           });
-          console.log('Audio Stream not created');
+          console.log('Audio Stream not created', error);
         })
     }
-    if (hasEnumerateDevices) {
-      enumerateDevices()
+    if (hasMediaDevicesEnumerateDevices()) {
+      mediaDevicesEnumerateDevices()
         .then(devices => {
           const deviceList = [];
           devices.forEach(device => {
@@ -77,16 +103,19 @@ class AudioCapture extends Component {
   }
 
   onClickRecord() {
-    const { mediaRecorder } = this.state;
-
-    if (!this.state.isRecording) {
-      // start recording
-      mediaRecorder.start();
-      console.log('start recording');
-      this.setState({ isRecording: true});
+    if (!this.state.isMediaStream) {
+      const { mediaRecorder } = this.state;
+      if (!this.state.isRecording) {
+        // start recording
+        mediaRecorder.start();
+        console.log('start recording');
+        this.setState({ isRecording: true});
+      } else {
+        // stop recording
+        mediaRecorder.stop();
+      }
     } else {
-      // stop recording
-      mediaRecorder.stop();
+      
     }
     
   }
@@ -110,7 +139,7 @@ class AudioCapture extends Component {
     if (mediaRecorder) {
       const glyph = mediaRecorder.state === 'recording' ? 
           <Glyphicon glyph="stop"/> : 
-          "Record Message";
+          "Start Recording";
       return (
         <div>
           <Button onClick={this.onClickRecord.bind(this)}>{glyph}</Button>
@@ -139,7 +168,7 @@ class AudioCapture extends Component {
   }
 
   render() {
-    const title = this.state.supported ? 'Audio Recorder' : 'Audio Not Supported';
+    const title = this.state.supported ? 'Record a message' : 'Audio Recorder Not Supported';
     return (
       <div>
         <h3>{title}</h3>

@@ -45,7 +45,10 @@ class ImgAnnotator extends Component {
     if ((hide && opacity <= 0) || (!hide && opacity >= 1)) {
       window.clearInterval(this.interval);
     } else {
+      const { clientWidth, clientHeight } = this.element;
       this.setState({
+        imgWidth: clientWidth,
+        imgHeight: clientHeight,
         opacity: hide ? Math.max(opacity - OPACITY_STEP, 0) : Math.min(opacity + OPACITY_STEP, 1)
       })
     }
@@ -55,7 +58,7 @@ class ImgAnnotator extends Component {
     if (nextProps.hide !== this.state.hide) {
       this.setState({
         hide: nextProps.hide
-      }, () => this.onWindowResize());
+      });
       this.interval = window.setInterval(this.fadeImage, 70);
     }
     if (nextProps.annotations !== this.state.annotations) {
@@ -76,8 +79,8 @@ class ImgAnnotator extends Component {
     }
     this.calcImageSize(clientHeight, clientWidth);
     this.setState({
-      imgHeight: Math.min(this.nativeHeight * this.scaling, clientHeight),
-      imgWidth: Math.min(this.nativeWidth * this.scaling, clientWidth)
+      imgHeight: clientHeight,
+      imgWidth: clientWidth
     });
   }
 

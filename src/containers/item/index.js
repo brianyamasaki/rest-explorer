@@ -152,7 +152,7 @@ const mapStateToProps = state => {
     name: itemDetails.name,
     description: itemDetails.description,
     links: itemDetails.links,
-    format: itemDetails.format.id,
+    format: itemDetails.format,
     creation: itemDetails.creation,
     persons: itemDetails.persons,
     credit: itemDetails.credit,
